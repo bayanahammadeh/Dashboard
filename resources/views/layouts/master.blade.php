@@ -38,8 +38,11 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery.3.2.1.min.js')}}"></script>
     <script src="{{ asset('assets/js/scripts.js')}}"></script>
+
+    @yield('scripts')
 </body>
 
 </html>
