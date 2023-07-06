@@ -159,18 +159,10 @@
 
 @section('scripts')
     <script>
-        $(document).ready(function() {
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            fetch();
-        });
-
         function fetch() {
+            $('#AddModal form')[0].reset();
+            $('#EditModal form')[0].reset();
+
             $.ajax({
                 type: "GET",
                 url: "{{ url('/admin/fetch-personal') }}",
@@ -180,99 +172,108 @@
                     $('tbody').html("");
                     $.each(response.data, function(key, item) {
                         $('tbody').append('<tr>\
-                            <td style="text-align:center">' + item.fname + " " + item.lname + '</td>\
-                            <td style="text-align:center">' + item.title + '</td>\
-                            <td style="text-align:center">' + item.description + '</td>\
-                            <td style="text-align:center">' + item.email + '</td>\
-                            <td style="text-align:center">' + item.mobile +
+                                <td style="text-align:center;vertical-align: middle;"">' + item.fname + " " + item.lname + '</td>\
+                                <td style="text-align:center;vertical-align: middle;"">' + item.title + '</td>\
+                                <td style="text-align:center;vertical-align: middle;"">' + item.description + '</td>\
+                                <td style="text-align:center;vertical-align: middle;"">' + item.email + '</td>\
+                                <td style="text-align:center;vertical-align: middle;"">' + item.mobile +
                             '</td>\
-                            <td style="text-align:center"><a href="{{ asset(url('assets/pdf/')) }}/' +
+                                <td style="text-align:center;vertical-align: middle;""><a href="{{ asset(url('assets/pdf/')) }}/' +
                             item
                             .pdf +
                             '" target="_blank">cv.pdf</a></td>\
-                            <td style="text-align:center">' + item.address + '</td>\
-                            <td style="text-align:center"><button type="button" value="' + item
+                                <td style="text-align:center;vertical-align: middle;"">' + item.address + '</td>\
+                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' + item
                             .id + '" class="edit btn btn-success">Edit</button></td>\
-                            <td style="text-align:center"><button type="button" value="' + item
+                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' + item
                             .id + '" class="del btn btn-danger">Delete</button></td>\
-                                                                            </tr>');
+                                                                                </tr>');
                     });
                 }
             });
         }
 
-        $('#addForm').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '{{ url('/admin/store-personal') }}',
-                data: new FormData(this),
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    $('#msg').show();
-                    $('#msg').text(response.message);
-                    $('#AddModal').modal('hide');
-                    $('#AddModal').find('input').val("");
-                    fetch();
+        $(document).ready(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-        });
+            fetch();
 
-        $(document).on('click', '.edit', function(e) {
-            e.preventDefault();
-            var id = $(this).val();
-            $('#EditModal').modal('show');
-            $.ajax({
-                type: "GET",
-                url: "{{ url('/admin/edit-personal') }}" + '/' + id,
-                success: function(response) {
-                    $('#id').val(response.personal.id);
-                    $('.fname').val(response.personal.fname);
-                    $('.lname').val(response.personal.lname);
-                    $('.title').val(response.personal.title);
-                    $('.email').val(response.personal.email);
-                    $('.description').val(response.personal.description);
-                    $('.mobile').val(response.personal.mobile);
-                    $('.phone').val(response.personal.phone);
-                    $('.address').val(response.personal.address);
-                }
+            $('#addForm').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('/admin/store-personal') }}',
+                    data: new FormData(this),
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $('#msg').show();
+                        $('#msg').text(response.message);
+                        $('#AddModal').modal('hide');
+                        fetch();
+                    }
+                });
             });
-        });
 
-        $('#updateForm').on('submit', function(e) {
-            e.preventDefault();
-            var id = $('#id').val();
-            $.ajax({
-                type: 'POST',
-                url: "{{ url('/admin/update-personal') }}" + '/' + id,
-                data: new FormData(this),
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    $('#msg').show();
-                    $('#msg').text(response.message);
-                    $('#EditModal').modal('hide');
-                    $('#EditModal').find('input').val("");
-                    fetch();
-                }
+            $(document).on('click', '.edit', function(e) {
+                e.preventDefault();
+                $('#updateForm')[0].reset();
+                var id = $(this).val();
+                $('#EditModal').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url('/admin/edit-personal') }}" + '/' + id,
+                    success: function(response) {
+                        $('#id').val(response.personal.id);
+                        $('.fname').val(response.personal.fname);
+                        $('.lname').val(response.personal.lname);
+                        $('.title').val(response.personal.title);
+                        $('.email').val(response.personal.email);
+                        $('.description').val(response.personal.description);
+                        $('.mobile').val(response.personal.mobile);
+                        $('.phone').val(response.personal.phone);
+                        $('.address').val(response.personal.address);
+                    }
+                });
             });
-        });
 
-        $(document).on('click', '.del', function(e) {
-            e.preventDefault();
-            var id = $(this).val();
+            $('#updateForm').on('submit', function(e) {
+                e.preventDefault();
+                var id = $('#id').val();
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url('/admin/update-personal') }}" + '/' + id,
+                    data: new FormData(this),
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        $('#msg').show();
+                        $('#msg').text(response.message);
+                        $('#EditModal').modal('hide');
+                        fetch();
+                    }
+                });
+            });
 
-            $.ajax({
-                type: 'DELETE',
-                url: "{{ url('/admin/delete-personal') }}" + '/' + id,
-                dataType: 'json',
-                success: function(response) {
-                    fetch();
-                }
-            })
+            $(document).on('click', '.del', function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: "{{ url('/admin/delete-personal') }}" + '/' + id,
+                    dataType: 'json',
+                    success: function(response) {
+                        fetch();
+                    }
+                })
+            });
         });
     </script>
 @endsection

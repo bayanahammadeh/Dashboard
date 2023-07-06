@@ -12,4 +12,7 @@ class Personal extends Model
     public function skills(){
         return $this->hasMany('App\Models\Skill','personal_id');
     }
+    public function projects(){
+        return $this->hasMany('App\Models\Project','personal_id');
+    }
 }

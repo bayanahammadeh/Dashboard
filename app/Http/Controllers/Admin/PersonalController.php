@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonalRequest;
 use App\Models\Personal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 
-class PersonalController extends Controller
+class PersonalController extends FileController
 {
     public function  fetch()
     {
@@ -31,20 +29,6 @@ class PersonalController extends Controller
         ]);
     }
 
-    public function deletedFile($file){
-        if (File::exists(public_path('assets/pdf/' . $file))) {
-            File::delete(public_path('assets/pdf/' . $file));
-        }
-    }
-
-    public function uploadFile($file)
-    {
-        $extension = $file->getClientOriginalExtension();
-        $filename = time() . '.' . $extension;
-        $file->move('assets/pdf/', $filename);
-        return $filename;
-    }
-
     public function store(PersonalRequest $request)
     {
         $validated = $request->validated();
@@ -61,7 +45,7 @@ class PersonalController extends Controller
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $personal->pdf = $this->uploadFile($file);
+            $personal->pdf = app('App\Http\Controllers\Admin\FileController')->uploadFile($file);
         }
         $personal->save();
         return response()->json([
@@ -73,7 +57,7 @@ class PersonalController extends Controller
     {
         $personal = Personal::find($id);
         if ($personal) {
-            $this->deletedFile($personal->pdf);
+            app('App\Http\Controllers\Admin\FileController')->deletedFile($personal->pdf);
             $personal->delete();
             return response()->json([
                 'message' => 'Personal Deleted Successfully',
@@ -103,7 +87,7 @@ class PersonalController extends Controller
             if ($request->hasFile('file')) {
                 $this->deletedFile($personal->pdf);
                 $file = $request->file('file');
-                $personal->pdf = $this->uploadFile($file);
+                $personal->pdf = app('App\Http\Controllers\Admin\FileController')->uploadFile($file);
             }
             $personal->update();
             return response()->json([

@@ -37,4 +37,11 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('edit-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'edit']);
     Route::post('update-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'update']);
     Route::delete('delete-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'delete']);
+    //////////////////////////////Project////////////////////////////////////////////////////
+    Route::get('project', [\App\Http\Controllers\Admin\ProjectController::class, 'index']);
+    Route::get('fetch-project', [App\Http\Controllers\Admin\ProjectController::class, 'fetch']);
+    Route::post('add-project', [App\Http\Controllers\Admin\ProjectController::class, 'store']);
+    Route::get('edit-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'edit']);
+    Route::post('update-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'update']);
+    Route::delete('delete-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'delete']);
 });

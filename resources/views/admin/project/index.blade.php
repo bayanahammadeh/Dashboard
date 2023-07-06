@@ -12,15 +12,21 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="addform">
+            <form id="addForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <label for="skill_name">Skill Name<span style="color:red">*</span></label>
-                    <input type="text" class="name form-control" placeholder="enter the skill name" required>
-                    <label for="percentage">Percentage<span style="color:red">*</span></label>
-                    <input type="text" class="percentage form-control" placeholder="enter the percentage" required>
+                    <label for="project_name">Name<span style="color:red">*</span></label>
+                    <input type="text" id="project_name" name="project_name" class="project_name form-control"
+                        placeholder="enter the project name" required>
+                    <label for="project_url">URL<span style="color:red">*</span></label>
+                    <input type="text" class="project_url form-control" id="project_url" name="project_url"
+                        placeholder="enter the url" required>
+                    <label for="file">Image<span style="color:red">*</span></label>
+                    <input type="file" class="file form-control" name="file" id="file"
+                        placeholder="enter the image" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
-                    <select name="personalselect" id="personalselect" class="personalselect form-control"></select>
+                    <select id="addpersonalselect" name="addpersonalselect"
+                        class="addpersonalselect form-control"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -42,24 +48,22 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editform">
+            <form id="updateForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
-                    <div class="form-group mb-3">
-                        <label for="name">Skill Name<span style="color:red">*</span></label>
-                        <input type="text"id="name" class="name form-control" />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="email">Percentage<span style="color:red">*</span></label>
-                        <input type="text" id="percentage" class="percentage form-control" />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="phone">Personal<span style="color:red">*</span></label>
-                        <select name="personalselect2" id="personalselect2"
-                            class="personalselect2 form-control">
-                        </select>
-                    </div>
+                    <label for="project_name">Name<span style="color:red">*</span></label>
+                    <input type="text" class="project_name form-control" id="project_name" name="project_name"
+                        placeholder="enter the project name" required>
+                    <label for="project_url">URL<span style="color:red">*</span></label>
+                    <input type="text" class="project_url form-control" id="project_url" name="project_url"
+                        placeholder="enter the url" required>
+                    <label for="file">Image<span style="color:red">*</span></label>
+                    <input type="file" class="file form-control" name="file" id="file"
+                        placeholder="enter the image" required>
+                    <label for="personal">Personal<span style="color:red">*</span></label>
+                    <select  id="updatepersonalselect" name="updatepersonalselect"
+                    class="updatepersonalselect  form-control"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -75,8 +79,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Skill<a href="#" class="btn btn-primary btn-sm float-end" id="add-skill" data-bs-toggle="modal"
-                        data-bs-target="#AddModal">Add</a>
+                <h4>Project<a href="#" class="btn btn-primary btn-sm float-end" id="add-project"
+                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -95,7 +99,10 @@
                                 Name
                             </th>
                             <th style="text-align: center">
-                                percentage
+                                URL
+                            </th>
+                            <th style="text-align: center">
+                                Image
                             </th>
                             <th style="text-align: center">
                                 personal
@@ -122,45 +129,48 @@
 
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-skill') }}",
+                url: "{{ url('/admin/fetch-project') }}",
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
-                    $.each(response.skills, function(key, item) {
+                    $.each(response.projects, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                <td style="text-align:center">' +
+                                                                                                                                                                <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .skill_name +
+                            .project_name +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .percentage +
+                            .project_url +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                <td style="text-align:center;vertical-align: middle;""><img  width=100px height=100  src="{{ asset(url('assets/img/')) }}/' +
+                                                                    item.project_image +
+                                                                    '"></td>\
+                                                                <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                            </tr>'
+                                                                                                                                                            </tr>'
                         );
                     });
                     $.each(response.personals, function(key, item) {
-                        $('#personalselect')
-                            .append($("<option></option>")
+                        $('#addpersonalselect')
+                            .append($("<option name='personal' id='personal'></option>")
                                 .attr("id", item.id)
                                 .text(item.fname + " " + item.lname));
-                        $('#personalselect2')
-                            .append($("<option></option>")
+                        $('#updatepersonalselect')
+                            .append($("<option name='personal' id='personal'></option>")
                                 .attr("id", item.id)
                                 .text(item.fname + " " + item.lname));
                     });
@@ -168,9 +178,7 @@
             });
         }
 
-
         $(document).ready(function() {
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -179,18 +187,18 @@
 
             fetch();
 
-            $('.add').click(function(e) {
+            $('#addForm').on('submit', function(e) {
                 e.preventDefault();
-                var data = {
-                    'name': $('.name').val(),
-                    'percentage': $('.percentage').val(),
-                    'personal': $("#personalselect option:selected").attr("id"),
-                }
+                data = new FormData(this);
+                var personal_id = $('#addpersonalselect option:selected').attr('id');
+                data.append('personal', personal_id);
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-skill') }}",
+                    url: "{{ url('/admin/add-project') }}",
                     data: data,
                     dataType: 'json',
+                    contentType: false,
+                    processData: false,
                     success: function(response) {
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
@@ -202,37 +210,38 @@
 
             $(document).on('click', '.edit', function(e) {
                 e.preventDefault();
-                $('#editform')[0].reset();
+                $('#updateForm')[0].reset();
                 var id = $(this).val();
 
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/edit-project') }}" + '/' + id,
                     success: function(response) {
-                        $('#edit_id').val(response.skill.id);
-                        $('.name').val(response.skill.skill_name);
-                        $('.percentage').val(response.skill.percentage);
-                        $("#personalselect2").val(response.skill.personal.fname+" "+response.skill.personal.lname);
+                        $('#edit_id').val(response.project.id);
+                        $('.project_name').val(response.project.project_name);
+                        $('.project_url').val(response.project.project_url);
+                        $("#personalselect2").val(response.project.personal.fname + " " +
+                            response.project.personal.lname);
                     }
                 })
             });
 
-            $('.update').click(function(e) {
+            $('#updateForm').on('submit', function(e) {
                 e.preventDefault();
 
-                var id = $('#edit_id').val();
-                var data = {
-                    'name': $('#name').val(),
-                    'percentage': $('#percentage').val(),
-                    'personal': $("#personalselect2 option:selected").attr("id"),
-                }
+                data = new FormData(this);
+                var personal_id = $('#updatepersonalselect option:selected').attr('id');
+                data.append('personal', personal_id);
 
+                var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/update-project') }}" + '/' + id,
                     data: data,
                     dataType: 'json',
+                    contentType: false,
+                    processData: false,
                     success: function(response) {
                         $('#EditModal').modal('hide');
                         fetch();
@@ -249,7 +258,7 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/delete-project') }}" + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch();
