@@ -9,10 +9,18 @@ class Personal extends Model
 {
     use HasFactory;
 
+    protected $table="personals";
+
     public function skills(){
         return $this->hasMany('App\Models\Skill','personal_id');
     }
     public function projects(){
         return $this->hasMany('App\Models\Project','personal_id');
+    }
+    public function educations(){
+        return $this->hasMany('App\Models\Education','personal_id');
+    }
+    public function experiences(){
+        return $this->hasMany('App\Models\Experience','personal_id');
     }
 }

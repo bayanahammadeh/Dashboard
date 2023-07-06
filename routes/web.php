@@ -44,4 +44,18 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('edit-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'edit']);
     Route::post('update-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'update']);
     Route::delete('delete-project/{id}', [App\Http\Controllers\Admin\ProjectController::class, 'delete']);
+    //////////////////////////////Education////////////////////////////////////////////////////
+    Route::get('education', [\App\Http\Controllers\Admin\EducationController::class, 'index']);
+    Route::get('fetch-education', [App\Http\Controllers\Admin\EducationController::class, 'fetch']);
+    Route::post('add-education', [App\Http\Controllers\Admin\EducationController::class, 'store']);
+    Route::get('edit-education/{id}', [App\Http\Controllers\Admin\EducationController::class, 'edit']);
+    Route::post('update-education/{id}', [App\Http\Controllers\Admin\EducationController::class, 'update']);
+    Route::delete('delete-education/{id}', [App\Http\Controllers\Admin\EducationController::class, 'delete']);
+    //////////////////////////////Experience////////////////////////////////////////////////////
+    Route::get('experience', [\App\Http\Controllers\Admin\ExperienceController::class, 'index']);
+    Route::get('fetch-experience', [App\Http\Controllers\Admin\ExperienceController::class, 'fetch']);
+    Route::post('add-experience', [App\Http\Controllers\Admin\ExperienceController::class, 'store']);
+    Route::get('edit-experience/{id}', [App\Http\Controllers\Admin\ExperienceController::class, 'edit']);
+    Route::post('update-experience/{id}', [App\Http\Controllers\Admin\ExperienceController::class, 'update']);
+    Route::delete('delete-experience/{id}', [App\Http\Controllers\Admin\ExperienceController::class, 'delete']);
 });

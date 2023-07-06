@@ -12,15 +12,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="addform">
+            <form id="addForm">
                 @csrf
                 <div class="modal-body">
-                    <label for="skill_name">Skill Name<span style="color:red">*</span></label>
-                    <input type="text" class="name form-control" placeholder="enter the skill name" required>
-                    <label for="percentage">Percentage<span style="color:red">*</span></label>
-                    <input type="text" class="percentage form-control" placeholder="enter the percentage" required>
+                    <label for="period">Period<span style="color:red">*</span></label>
+                    <input type="text" id="periodd" name="periodd" class="periodd form-control"
+                        placeholder="enter the period" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
-                    <select name="personalselect" id="personalselect" class="personalselect form-control"></select>
+                    <select id="addpersonalselect" name="addpersonalselect"
+                        class="addpersonalselect form-control"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -42,24 +42,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="editform">
+            <form id="updateForm">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
-                    <div class="form-group mb-3">
-                        <label for="name">Skill Name<span style="color:red">*</span></label>
-                        <input type="text"id="name" class="name form-control" />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="percentage">Percentage<span style="color:red">*</span></label>
-                        <input type="text" id="percentage" class="percentage form-control" />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="personalselect2">Personal<span style="color:red">*</span></label>
-                        <select name="personalselect2" id="personalselect2"
-                            class="personalselect2 form-control">
-                        </select>
-                    </div>
+                    <label for="period">Period<span style="color:red">*</span></label>
+                    <input type="text" class="period form-control" id="period" name="period"
+                        placeholder="enter the project name" required>
+                    <label for="personal">Personal<span style="color:red">*</span></label>
+                    <select  id="updatepersonalselect" name="updatepersonalselect"
+                    class="updatepersonalselect  form-control"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -75,8 +67,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Skill<a href="#" class="btn btn-primary btn-sm float-end" id="add-skill" data-bs-toggle="modal"
-                        data-bs-target="#AddModal">Add</a>
+                <h4>Project<a href="#" class="btn btn-primary btn-sm float-end" id="add-period"
+                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -92,12 +84,9 @@
                                 ID
                             </th>
                             <th style="text-align: center">
-                                Name
+                                Period
                             </th>
-                            <th style="text-align: center">
-                                percentage
-                            </th>
-                            <th style="text-align: center">
+                            <<th style="text-align: center">
                                 personal
                             </th>
                             <th style="text-align: center" colspan="2">
@@ -122,45 +111,41 @@
 
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-skill') }}",
+                url: "{{ url('/admin/fetch-experience') }}",
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
-                    $.each(response.skills, function(key, item) {
+                    $.each(response.experiences, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                <td style="text-align:center">' +
+                                                                                                                                                                <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .skill_name +
+                            .period +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
-                            item
-                            .percentage +
-                            '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                         <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                            </tr>'
+                                                                                                                                                            </tr>'
                         );
                     });
                     $.each(response.personals, function(key, item) {
-                        $('#personalselect')
-                            .append($("<option></option>")
+                        $('#addpersonalselect')
+                            .append($("<option name='personal' id='personal'></option>")
                                 .attr("id", item.id)
                                 .text(item.fname + " " + item.lname));
-                        $('#personalselect2')
-                            .append($("<option></option>")
+                        $('#updatepersonalselect')
+                            .append($("<option name='personal' id='personal'></option>")
                                 .attr("id", item.id)
                                 .text(item.fname + " " + item.lname));
                     });
@@ -168,9 +153,7 @@
             });
         }
 
-
         $(document).ready(function() {
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -182,13 +165,12 @@
             $('.add').click(function(e) {
                 e.preventDefault();
                 var data = {
-                    'name': $('.name').val(),
-                    'percentage': $('.percentage').val(),
-                    'personal': $("#personalselect option:selected").attr("id"),
+                    'period': $('.periodd').val(),
+                    'personal': $("#addpersonalselect option:selected").attr("id"),
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-skill') }}",
+                    url: "{{ url('/admin/add-experience') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -202,18 +184,18 @@
 
             $(document).on('click', '.edit', function(e) {
                 e.preventDefault();
-                $('#editform')[0].reset();
+                $('#updateForm')[0].reset();
                 var id = $(this).val();
 
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/edit-experience') }}" + '/' + id,
                     success: function(response) {
-                        $('#edit_id').val(response.skill.id);
-                        $('.name').val(response.skill.skill_name);
-                        $('.percentage').val(response.skill.percentage);
-                        $("#personalselect2").val(response.skill.personal.fname+" "+response.skill.personal.lname);
+                        $('#edit_id').val(response.experience.id);
+                        $('.period').val(response.experience.period);
+                        $("#updatepersonalselect").val(response.experience.personal.fname + " " +
+                            response.experience.personal.lname);
                     }
                 })
             });
@@ -221,16 +203,14 @@
             $('.update').click(function(e) {
                 e.preventDefault();
 
-                var id = $('#edit_id').val();
                 var data = {
-                    'name': $('#name').val(),
-                    'percentage': $('#percentage').val(),
-                    'personal': $("#personalselect2 option:selected").attr("id"),
+                    'period': $('.period').val(),
+                    'personal': $("#updatepersonalselect option:selected").attr("id"),
                 }
-
+                var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/update-experience') }}" + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -249,7 +229,7 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/delete-experience') }}" + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch();

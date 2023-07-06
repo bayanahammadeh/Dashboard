@@ -82,12 +82,10 @@ class ProjectController extends ImageController
             app('App\Http\Controllers\Admin\ImageController')->deletedFile($project->project_image);
             $project->delete();
             return response()->json([
-                'status' => 200,
                 'message' => 'Project Deleted Successfully',
             ]);
         } else {
             return response()->json([
-                'status' => 404,
                 'message' => 'Project Not Found',
             ]);
         }

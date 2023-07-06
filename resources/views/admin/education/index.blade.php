@@ -15,10 +15,8 @@
             <form id="addform">
                 @csrf
                 <div class="modal-body">
-                    <label for="skill_name">Skill Name<span style="color:red">*</span></label>
-                    <input type="text" class="name form-control" placeholder="enter the skill name" required>
-                    <label for="percentage">Percentage<span style="color:red">*</span></label>
-                    <input type="text" class="percentage form-control" placeholder="enter the percentage" required>
+                    <label for="education_name">Education Name<span style="color:red">*</span></label>
+                    <input type="text" class="education_name form-control" id="education_name" name="education_name" placeholder="enter the education" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select name="personalselect" id="personalselect" class="personalselect form-control"></select>
                 </div>
@@ -47,12 +45,8 @@
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
                     <div class="form-group mb-3">
-                        <label for="name">Skill Name<span style="color:red">*</span></label>
-                        <input type="text"id="name" class="name form-control" />
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="percentage">Percentage<span style="color:red">*</span></label>
-                        <input type="text" id="percentage" class="percentage form-control" />
+                        <label for="education_namee">Education Name<span style="color:red">*</span></label>
+                        <input type="text" id="education_namee" name="education_namee" class="education_namee form-control" />
                     </div>
                     <div class="form-group mb-3">
                         <label for="personalselect2">Personal<span style="color:red">*</span></label>
@@ -75,7 +69,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Skill<a href="#" class="btn btn-primary btn-sm float-end" id="add-skill" data-bs-toggle="modal"
+                <h4>Skill<a href="#" class="btn btn-primary btn-sm float-end" id="add-education" data-bs-toggle="modal"
                         data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
@@ -93,9 +87,6 @@
                             </th>
                             <th style="text-align: center">
                                 Name
-                            </th>
-                            <th style="text-align: center">
-                                percentage
                             </th>
                             <th style="text-align: center">
                                 personal
@@ -122,11 +113,11 @@
 
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-skill') }}",
+                url: "{{ url('/admin/fetch-education') }}",
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
-                    $.each(response.skills, function(key, item) {
+                    $.each(response.educations, function(key, item) {
                         $('tbody').append(
                             '<tr>\
                                                                                                                                                 <td style="text-align:center">' +
@@ -135,11 +126,7 @@
                             '</td>\
                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .skill_name +
-                            '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
-                            item
-                            .percentage +
+                            .education_name +
                             '</td>\
                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
@@ -182,13 +169,12 @@
             $('.add').click(function(e) {
                 e.preventDefault();
                 var data = {
-                    'name': $('.name').val(),
-                    'percentage': $('.percentage').val(),
+                    'education_name': $('.education_name').val(),
                     'personal': $("#personalselect option:selected").attr("id"),
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-skill') }}",
+                    url: "{{ url('/admin/add-education') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -208,12 +194,11 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/edit-education') }}" + '/' + id,
                     success: function(response) {
-                        $('#edit_id').val(response.skill.id);
-                        $('.name').val(response.skill.skill_name);
-                        $('.percentage').val(response.skill.percentage);
-                        $("#personalselect2").val(response.skill.personal.fname+" "+response.skill.personal.lname);
+                        $('#edit_id').val(response.education.id);
+                        $('#education_namee').val(response.education.education_name);
+                        $("#personalselect2").val(response.education.personal.fname+" "+response.education.personal.lname);
                     }
                 })
             });
@@ -223,14 +208,13 @@
 
                 var id = $('#edit_id').val();
                 var data = {
-                    'name': $('#name').val(),
-                    'percentage': $('#percentage').val(),
+                    'education_name': $('#education_namee').val(),
                     'personal': $("#personalselect2 option:selected").attr("id"),
                 }
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/update-education') }}" + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -249,7 +233,7 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-skill') }}" + '/' + id,
+                    url: "{{ url('/admin/delete-education') }}" + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch();

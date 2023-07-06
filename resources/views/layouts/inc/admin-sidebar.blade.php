@@ -18,6 +18,14 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Project
                     </a>
+                    <a class="nav-link" href="{{ url('admin/education') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Education
+                    </a>
+                    <a class="nav-link" href="{{ url('admin/experience') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Experience
+                    </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
