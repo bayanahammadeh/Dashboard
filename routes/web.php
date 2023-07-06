@@ -25,7 +25,7 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
     //////////////////////////Personal////////////////////////////////
     Route::get('personal', [App\Http\Controllers\Admin\PersonalController::class, 'index']);
-    Route::get('fetch-personal', 'App\Http\Controllers\Admin\PersonalController@fetch_personal');
+    Route::get('fetch-personal', [App\Http\Controllers\Admin\PersonalController::class,'fetch']);
     Route::post('store-personal', [App\Http\Controllers\Admin\PersonalController::class, 'store']);
     Route::delete('delete-personal/{id}', [App\Http\Controllers\Admin\PersonalController::class, 'delete']);
     Route::get('edit-personal/{id}', [App\Http\Controllers\Admin\PersonalController::class, 'edit']);
@@ -35,6 +35,6 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('fetch-skill', [App\Http\Controllers\Admin\SkillController::class, 'fetch']);
     Route::post('add-skill', [App\Http\Controllers\Admin\SkillController::class, 'store']);
     Route::get('edit-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'edit']);
-    Route::put('update-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'update']);
+    Route::post('update-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'update']);
     Route::delete('delete-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'delete']);
 });

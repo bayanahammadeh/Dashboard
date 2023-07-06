@@ -2,7 +2,6 @@
 
 @section('title', ' Dashboard | BAYAN CV')
 
-
 <!-- Add Modal -->
 <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -13,18 +12,21 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <label for="skill_name">Skill Name<span style="color:red">*</span></label>
-                <input type="text" class="name form-control" placeholder="enter the skill name" required>
-                <label for="percentage">Percentage<span style="color:red">*</span></label>
-                <input type="text" class="percentage form-control" placeholder="enter the percentage" required>
-                <label for="personal">Personal<span style="color:red">*</span></label>
-                <input type="text" class="personal form-control" placeholder="enter the personal" required>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="add btn btn-primary">Save</button>
-            </div>
+            <form id="addform">
+                @csrf
+                <div class="modal-body">
+                    <label for="skill_name">Skill Name<span style="color:red">*</span></label>
+                    <input type="text" class="name form-control" placeholder="enter the skill name" required>
+                    <label for="percentage">Percentage<span style="color:red">*</span></label>
+                    <input type="text" class="percentage form-control" placeholder="enter the percentage" required>
+                    <label for="personal">Personal<span style="color:red">*</span></label>
+                    <select name="personalselect" id="personalselect" class="personalselect form-control"></select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="add btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -40,25 +42,30 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <input type="hidden" id="edit_id">
-                <div class="form-group mb-3">
-                    <label for="name">Skill Name<span style="color:red">*</span></label>
-                    <input type="text" class="name form-control" />
+            <form id="editform">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" id="edit_id">
+                    <div class="form-group mb-3">
+                        <label for="name">Skill Name<span style="color:red">*</span></label>
+                        <input type="text"id="name" class="name form-control" />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="email">Percentage<span style="color:red">*</span></label>
+                        <input type="text" id="percentage" class="percentage form-control" />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="phone">Personal<span style="color:red">*</span></label>
+                        <select name="personalselect2" id="personalselect2"
+                            class="personalselect2 form-control">
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="email">Percentage<span style="color:red">*</span></label>
-                    <input type="text" class="percentage form-control" />
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary update">Update</button>
                 </div>
-                <div class="form-group mb-3">
-                    <label for="phone">Personal<span style="color:red">*</span></label>
-                    <input type="text" class="personal form-control" />
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary update">Update</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -109,6 +116,59 @@
 
 @section('scripts')
     <script>
+        function fetch() {
+            $('#AddModal form')[0].reset();
+            $('#EditModal form')[0].reset();
+
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('/admin/fetch-skill') }}",
+                dataType: 'json',
+                success: function(response) {
+                    $('tbody').html("");
+                    $.each(response.skills, function(key, item) {
+                        $('tbody').append(
+                            '<tr>\
+                                                                                                                                                <td style="text-align:center">' +
+                            item
+                            .id +
+                            '</td>\
+                                                <td style="text-align:center">' +
+                            item
+                            .skill_name +
+                            '</td>\
+                                                <td style="text-align:center">' +
+                            item
+                            .percentage +
+                            '</td>\
+                                                <td style="text-align:center">' +
+                            item.personal.fname + " " + item.personal.lname +
+                            '</td>\
+                                                <td style="text-align:center"><button type="button" value="' +
+                            item.id +
+                            '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
+                                                <td style="text-align:center"><button type="button" value="' +
+                            item
+                            .id +
+                            '" class="del btn btn-danger btn-sm">Delete</button></td>\
+                                                                                                                                            </tr>'
+                        );
+                    });
+                    $.each(response.personals, function(key, item) {
+                        $('#personalselect')
+                            .append($("<option></option>")
+                                .attr("id", item.id)
+                                .text(item.fname + " " + item.lname));
+                        $('#personalselect2')
+                            .append($("<option></option>")
+                                .attr("id", item.id)
+                                .text(item.fname + " " + item.lname));
+                    });
+                }
+            });
+        }
+
+
         $(document).ready(function() {
 
             $.ajaxSetup({
@@ -119,79 +179,41 @@
 
             fetch();
 
-            function fetch() {
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ url('/admin/fetch-skill') }}',
-                    dataType: 'json',
-                    success: function(response) {
-                        //console.log(response.skills);
-                        $('tbody').html("");
-                        $.each(response.skills, function(key, item) {
-                            $('tbody').append('<tr>\
-                                                                                                    <td>' + item.id + '</td>\
-                                                                                                    <td>' + item
-                                .skill_name + '</td>\
-                                                                                                    <td>' + item
-                                .percentage + '</td>\
-                                                                                                    <td>' + item
-                                .personal.fname +
-                                '</td>\
-                                                                                                    <td><button type="button" value="' +
-                                item.id +
-                                '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                                                    <td><button type="button" value="' +
-                                item
-                                .id + '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                </tr>');
-                        });
-                    }
-                });
-            }
-
             $('.add').click(function(e) {
                 e.preventDefault();
                 var data = {
                     'name': $('.name').val(),
                     'percentage': $('.percentage').val(),
-                    'personal': $('.personal').val(),
+                    'personal': $("#personalselect option:selected").attr("id"),
                 }
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('/admin/add-skill') }}',
+                    url: "{{ url('/admin/add-skill') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
-                        if (response.status == 400) {
-                            alert('Be Sure from the entered data');
-                        } else {
-                            $('#success_msg').show();
-                            $('#success_msg').text(response.message);
-                            $('#AddModal').modal('hide');
-                            $('#AddModal').find('input').val("");
-                            fetch();
-                        }
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
+                        $('#AddModal').modal('hide');
+                        fetch();
                     }
                 });
             });
 
             $(document).on('click', '.edit', function(e) {
                 e.preventDefault();
+                $('#editform')[0].reset();
                 var id = $(this).val();
+
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{url('/admin/edit-skill')}}"+'/'+id,
+                    url: "{{ url('/admin/edit-skill') }}" + '/' + id,
                     success: function(response) {
-                        if (response.status == 404) {
-                            $('#success_msg').show();
-                            $('#success_msg').text(response.message);
-                        } else {
-                            $('#edit_id').val(response.skill.id);
-                            $('.name').val(response.skill.skill_name);
-                            $('.percentage').val(response.skill.percentage);
-                            $('.personal').val(response.skill.personal_id);
-                        }
+                        $('#edit_id').val(response.skill.id);
+                        $('.name').val(response.skill.skill_name);
+                        $('.percentage').val(response.skill.percentage);
+                        $("#personalselect2").val(response.skill.personal.fname+" "+response.skill.personal.lname);
                     }
                 })
             });
@@ -201,26 +223,21 @@
 
                 var id = $('#edit_id').val();
                 var data = {
-                    'name': $('.name').val(),
-                    'percentage': $('.percentage').val(),
-                    'personal': $('.personal').val(),
+                    'name': $('#name').val(),
+                    'percentage': $('#percentage').val(),
+                    'personal': $("#personalselect2 option:selected").attr("id"),
                 }
 
                 $.ajax({
-                    type: 'PUT',
-                    url: "{{url('/admin/update-skill')}}"+'/'+id,
+                    type: 'POST',
+                    url: "{{ url('/admin/update-skill') }}" + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
-                        if (response.status == 404) {
-                            alert('Be Sure from the entered data');
-                        } else {
-                            $('#EditModal').modal('hide');
-                            $('#EditModal').find('input').val("");
-                            fetch();
-                            $('#success_msg').show();
-                            $('#success_msg').text(response.message);
-                        }
+                        $('#EditModal').modal('hide');
+                        fetch();
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     }
                 })
             });
@@ -232,18 +249,13 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{url('/admin/delete-skill')}}"+'/'+id,
+                    url: "{{ url('/admin/delete-skill') }}" + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        if (response.status == 404) {
-                            alert('Be Sure from the entered data');
-                        } else {
-                            fetch();
-                        }
+                        fetch();
                     }
                 })
             });
         });
     </script>
-
 @endsection

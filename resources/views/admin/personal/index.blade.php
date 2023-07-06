@@ -180,20 +180,20 @@
                     $('tbody').html("");
                     $.each(response.data, function(key, item) {
                         $('tbody').append('<tr>\
-                                                                               <td>' + item.fname + " " + item.lname + '</td>\
-                                                                                <td>' + item.title + '</td>\
-                                                                                <td>' + item.description + '</td>\
-                                                                                <td>' + item.email + '</td>\
-                                                                                <td>' + item.mobile +
+                            <td style="text-align:center">' + item.fname + " " + item.lname + '</td>\
+                            <td style="text-align:center">' + item.title + '</td>\
+                            <td style="text-align:center">' + item.description + '</td>\
+                            <td style="text-align:center">' + item.email + '</td>\
+                            <td style="text-align:center">' + item.mobile +
                             '</td>\
-                                                                                <td><a href="{{ asset(url('assets/pdf/')) }}/' +
+                            <td style="text-align:center"><a href="{{ asset(url('assets/pdf/')) }}/' +
                             item
                             .pdf +
                             '" target="_blank">cv.pdf</a></td>\
-                                                                                <td>' + item.address + '</td>\
-                                                                                <td><button type="button" value="' + item
+                            <td style="text-align:center">' + item.address + '</td>\
+                            <td style="text-align:center"><button type="button" value="' + item
                             .id + '" class="edit btn btn-success">Edit</button></td>\
-                                                                                <td><button type="button" value="' + item
+                            <td style="text-align:center"><button type="button" value="' + item
                             .id + '" class="del btn btn-danger">Delete</button></td>\
                                                                             </tr>');
                     });
@@ -275,5 +275,4 @@
             })
         });
     </script>
-
 @endsection

@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\File;
 
 class PersonalController extends Controller
 {
-
-    public function  fetch_personal()
+    public function  fetch()
     {
         $data = Personal::all();
         return response()->json([
