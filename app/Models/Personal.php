@@ -23,4 +23,7 @@ class Personal extends Model
     public function experiences(){
         return $this->hasMany('App\Models\Experience','personal_id');
     }
+    public function langs(){
+        return $this->hasMany('App\Models\Experience','personal_id');
+    }
 }

@@ -15,9 +15,9 @@
             <form id="addForm">
                 @csrf
                 <div class="modal-body">
-                    <label for="period">Period<span style="color:red">*</span></label>
-                    <input type="text" id="periodd" name="periodd" class="periodd form-control"
-                        placeholder="enter the period" required>
+                    <label for="lang">Lang<span style="color:red">*</span></label>
+                    <input type="text" id="langg" name="langg" class="langg form-control"
+                        placeholder="enter the lang" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select id="addpersonalselect" name="addpersonalselect"
                         class="addpersonalselect form-control"></select>
@@ -46,9 +46,9 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
-                    <label for="period">Period<span style="color:red">*</span></label>
-                    <input type="text" class="period form-control" id="period" name="period"
-                        placeholder="enter the  name" required>
+                    <label for="lang">lang<span style="color:red">*</span></label>
+                    <input type="text" class="lang form-control" id="lang" name="lang"
+                        placeholder="enter the lang" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select  id="updatepersonalselect" name="updatepersonalselect"
                     class="updatepersonalselect  form-control"></select>
@@ -67,7 +67,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Project<a href="#" class="btn btn-primary btn-sm float-end" id="add-period"
+                <h4>Project<a href="#" class="btn btn-primary btn-sm float-end" id="add-lang"
                         data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
@@ -84,7 +84,7 @@
                                 ID
                             </th>
                             <th style="text-align: center">
-                                Period
+                                Lang
                             </th>
                             <<th style="text-align: center">
                                 personal
@@ -111,11 +111,11 @@
 
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-experience') }}",
+                url: "{{ url('/admin/fetch-lang') }}",
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
-                    $.each(response.experiences, function(key, item) {
+                    $.each(response.langs, function(key, item) {
                         $('tbody').append(
                             '<tr>\
                                                                                                                                                                 <td style="text-align:center;vertical-align: middle;"">' +
@@ -124,7 +124,7 @@
                             '</td>\
                                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .period +
+                            .lang_name +
                             '</td>\
                                                          <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
@@ -165,12 +165,12 @@
             $('.add').click(function(e) {
                 e.preventDefault();
                 var data = {
-                    'period': $('.periodd').val(),
+                    'lang': $('.langg').val(),
                     'personal': $("#addpersonalselect option:selected").attr("id"),
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-experience') }}",
+                    url: "{{ url('/admin/add-lang') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -190,12 +190,12 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-experience') }}" + '/' + id,
+                    url: "{{ url('/admin/edit-lang') }}" + '/' + id,
                     success: function(response) {
-                        $('#edit_id').val(response.experience.id);
-                        $('.period').val(response.experience.period);
-                        $("#updatepersonalselect").val(response.experience.personal.fname + " " +
-                            response.experience.personal.lname);
+                        $('#edit_id').val(response.lang.id);
+                        $('.lang').val(response.lang.lang_name);
+                        $("#updatepersonalselect").val(response.lang.personal.fname + " " +
+                            response.lang.personal.lname);
                     }
                 })
             });
@@ -204,13 +204,13 @@
                 e.preventDefault();
 
                 var data = {
-                    'period': $('.period').val(),
+                    'lang': $('.lang').val(),
                     'personal': $("#updatepersonalselect option:selected").attr("id"),
                 }
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-experience') }}" + '/' + id,
+                    url: "{{ url('/admin/update-lang') }}" + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -229,7 +229,7 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-experience') }}" + '/' + id,
+                    url: "{{ url('/admin/delete-lang') }}" + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch();

@@ -58,4 +58,11 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('edit-experience/{id}', [App\Http\Controllers\Admin\ExperienceController::class, 'edit']);
     Route::post('update-experience/{id}', [App\Http\Controllers\Admin\ExperienceController::class, 'update']);
     Route::delete('delete-experience/{id}', [App\Http\Controllers\Admin\ExperienceController::class, 'delete']);
+    //////////////////////////////Langs////////////////////////////////////////////////////
+    Route::get('lang', [\App\Http\Controllers\Admin\LangController::class, 'index']);
+    Route::get('fetch-lang', [App\Http\Controllers\Admin\LangController::class, 'fetch']);
+    Route::post('add-lang', [App\Http\Controllers\Admin\LangController::class, 'store']);
+    Route::get('edit-lang/{id}', [App\Http\Controllers\Admin\LangController::class, 'edit']);
+    Route::post('update-lang/{id}', [App\Http\Controllers\Admin\LangController::class, 'update']);
+    Route::delete('delete-lang/{id}', [App\Http\Controllers\Admin\LangController::class, 'delete']);
 });

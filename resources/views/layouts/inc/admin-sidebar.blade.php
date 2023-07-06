@@ -26,6 +26,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Experience
                     </a>
+                    <a class="nav-link" href="{{ url('admin/lang') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Lang
+                    </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
