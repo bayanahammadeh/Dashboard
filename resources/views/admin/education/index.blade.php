@@ -69,7 +69,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Skill<a href="#" class="btn btn-primary btn-sm float-end" id="add-education" data-bs-toggle="modal"
+                <h4>Education<a href="#" class="btn btn-primary btn-sm float-end" id="add-education" data-bs-toggle="modal"
                         data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>

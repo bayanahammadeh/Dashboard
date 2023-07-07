@@ -65,4 +65,11 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('edit-lang/{id}', [App\Http\Controllers\Admin\LangController::class, 'edit']);
     Route::post('update-lang/{id}', [App\Http\Controllers\Admin\LangController::class, 'update']);
     Route::delete('delete-lang/{id}', [App\Http\Controllers\Admin\LangController::class, 'delete']);
+    //////////////////////////////Social////////////////////////////////////////////////////
+    Route::get('social', [\App\Http\Controllers\Admin\SocialController::class, 'index']);
+    Route::get('fetch-social', [App\Http\Controllers\Admin\SocialController::class, 'fetch']);
+    Route::post('add-social', [App\Http\Controllers\Admin\SocialController::class, 'store']);
+    Route::get('edit-social/{id}', [App\Http\Controllers\Admin\SocialController::class, 'edit']);
+    Route::post('update-social/{id}', [App\Http\Controllers\Admin\SocialController::class, 'update']);
+    Route::delete('delete-social/{id}', [App\Http\Controllers\Admin\SocialController::class, 'delete']);
 });

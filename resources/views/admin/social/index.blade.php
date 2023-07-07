@@ -15,9 +15,12 @@
             <form id="addForm">
                 @csrf
                 <div class="modal-body">
-                    <label for="lang">Lang<span style="color:red">*</span></label>
-                    <input type="text" id="langg" name="langg" class="langg form-control"
-                        placeholder="enter the lang" required>
+                    <label for="namee">Name<span style="color:red">*</span></label>
+                    <input type="text" id="namee" name="namee" class="namee form-control"
+                        placeholder="enter the name" required>
+                    <label for="urll">URL<span style="color:red">*</span></label>
+                    <input type="text" id="urll" name="urll" class="urll form-control"
+                        placeholder="enter the url" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select id="addpersonalselect" name="addpersonalselect"
                         class="addpersonalselect form-control"></select>
@@ -46,9 +49,12 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
-                    <label for="lang">lang<span style="color:red">*</span></label>
-                    <input type="text" class="lang form-control" id="lang" name="lang"
-                        placeholder="enter the lang" required>
+                    <label for="name">Name<span style="color:red">*</span></label>
+                    <input type="text" id="name" name="name" class="name form-control"
+                        placeholder="enter the name" required>
+                    <label for="url">URL<span style="color:red">*</span></label>
+                    <input type="text" class="url form-control" id="url" name="url"
+                        placeholder="enter the url" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select  id="updatepersonalselect" name="updatepersonalselect"
                     class="updatepersonalselect  form-control"></select>
@@ -67,7 +73,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Lang<a href="#" class="btn btn-primary btn-sm float-end" id="add-lang"
+                <h4>Social<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
                         data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
@@ -84,7 +90,10 @@
                                 ID
                             </th>
                             <th style="text-align: center">
-                                Lang
+                                Name
+                            </th>
+                            <th style="text-align: center">
+                                URL
                             </th>
                             <th style="text-align: center">
                                 personal
@@ -111,11 +120,11 @@
 
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-lang') }}",
+                url: "{{ url('/admin/fetch-social') }}",
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
-                    $.each(response.langs, function(key, item) {
+                    $.each(response.socials, function(key, item) {
                         $('tbody').append(
                             '<tr>\
                                                                                                                                                                 <td style="text-align:center;vertical-align: middle;"">' +
@@ -124,7 +133,11 @@
                             '</td>\
                                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .lang_name +
+                            .name +
+                            '</td>\
+                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                            item
+                            .url +
                             '</td>\
                                                          <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
@@ -165,12 +178,13 @@
             $('.add').click(function(e) {
                 e.preventDefault();
                 var data = {
-                    'lang': $('.langg').val(),
+                    'name': $('.namee').val(),
+                    'url': $('.urll').val(),
                     'personal': $("#addpersonalselect option:selected").attr("id"),
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-lang') }}",
+                    url: "{{ url('/admin/add-social') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -190,12 +204,13 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-lang') }}" + '/' + id,
+                    url: "{{ url('/admin/edit-social') }}" + '/' + id,
                     success: function(response) {
-                        $('#edit_id').val(response.lang.id);
-                        $('.lang').val(response.lang.lang_name);
-                        $("#updatepersonalselect").val(response.lang.personal.fname + " " +
-                            response.lang.personal.lname);
+                        $('#edit_id').val(response.social.id);
+                        $('.name').val(response.social.name);
+                        $('.url').val(response.social.url);
+                        $("#updatepersonalselect").val(response.social.personal.fname + " " +
+                            response.social.personal.lname);
                     }
                 })
             });
@@ -204,13 +219,14 @@
                 e.preventDefault();
 
                 var data = {
-                    'lang': $('.lang').val(),
+                    'name': $('.name').val(),
+                    'url': $('.url').val(),
                     'personal': $("#updatepersonalselect option:selected").attr("id"),
                 }
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-lang') }}" + '/' + id,
+                    url: "{{ url('/admin/update-social') }}" + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -229,7 +245,7 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-lang') }}" + '/' + id,
+                    url: "{{ url('/admin/delete-social') }}" + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch();

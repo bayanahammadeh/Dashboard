@@ -2,10 +2,6 @@
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
-                    <a class="nav-link" href="{{ url('admin/dashboard') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Dashboard
-                    </a>
                     <a class="nav-link" href="{{ url('admin/personal') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Personal
@@ -29,6 +25,10 @@
                     <a class="nav-link" href="{{ url('admin/lang') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Lang
+                    </a>
+                    <a class="nav-link" href="{{ url('admin/social') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Social
                     </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                         data-bs-parent="#sidenavAccordion">

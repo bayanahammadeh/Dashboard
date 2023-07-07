@@ -67,7 +67,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Project<a href="#" class="btn btn-primary btn-sm float-end" id="add-period"
+                <h4>Experience<a href="#" class="btn btn-primary btn-sm float-end" id="add-period"
                         data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
@@ -86,7 +86,7 @@
                             <th style="text-align: center">
                                 Period
                             </th>
-                            <<th style="text-align: center">
+                            <th style="text-align: center">
                                 personal
                             </th>
                             <th style="text-align: center" colspan="2">
