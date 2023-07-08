@@ -15,4 +15,8 @@ class Experience extends Model
     {
         return $this->belongsTo('App\Models\Personal','personal_id');
     }
+
+    public function Exs(){
+        return $this->hasMany('App\Models\Ex','experience_id');
+    }
 }

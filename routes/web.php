@@ -72,4 +72,18 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('edit-social/{id}', [App\Http\Controllers\Admin\SocialController::class, 'edit']);
     Route::post('update-social/{id}', [App\Http\Controllers\Admin\SocialController::class, 'update']);
     Route::delete('delete-social/{id}', [App\Http\Controllers\Admin\SocialController::class, 'delete']);
+    //////////////////////////////Education-Detail////////////////////////////////////////////////////
+    Route::get('ed', [\App\Http\Controllers\Admin\EdController::class, 'index']);
+    Route::get('fetch-ed', [App\Http\Controllers\Admin\EdController::class, 'fetch']);
+    Route::post('add-ed', [App\Http\Controllers\Admin\EdController::class, 'store']);
+    Route::get('edit-ed/{id}', [App\Http\Controllers\Admin\EdController::class, 'edit']);
+    Route::post('update-ed/{id}', [App\Http\Controllers\Admin\EdController::class, 'update']);
+    Route::delete('delete-ed/{id}', [App\Http\Controllers\Admin\EdController::class, 'delete']);
+    //////////////////////////////Experience-Detail////////////////////////////////////////////////////
+    Route::get('ex', [\App\Http\Controllers\Admin\ExController::class, 'index']);
+    Route::get('fetch-ex', [App\Http\Controllers\Admin\ExController::class, 'fetch']);
+    Route::post('add-ex', [App\Http\Controllers\Admin\ExController::class, 'store']);
+    Route::get('edit-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'edit']);
+    Route::post('update-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'update']);
+    Route::delete('delete-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'delete']);
 });

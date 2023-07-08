@@ -16,4 +16,8 @@ class Education extends Model
         return $this->belongsTo('App\Models\Personal','personal_id');
     }
 
+    public function Eds(){
+        return $this->hasMany('App\Models\Ed','education_id');
+    }
+
 }
