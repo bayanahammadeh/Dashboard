@@ -52,7 +52,6 @@
                     <label for="name">Name<span style="color:red">*</span></label>
                     <input type="text" id="name" name="name" class="name form-control"
                         placeholder="enter the name" required>
-                    <label for="detail"><span style="color:red">*</span></label>
                     <label for="detail">Detail<span style="color:red">*</span></label>
                     <input type="text" id="detail" name="detail" class="detail form-control"
                         placeholder="enter the detail" required>
@@ -74,7 +73,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Social<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
+                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
                         data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>

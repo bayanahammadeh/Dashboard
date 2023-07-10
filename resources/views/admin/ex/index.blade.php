@@ -73,7 +73,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Social<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
+                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
                         data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>

@@ -44,6 +44,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Social
                     </a>
+                    <a class="nav-link" href="{{ url('admin/contact') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        Contact
+                    </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">

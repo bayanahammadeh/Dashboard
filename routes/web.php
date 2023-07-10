@@ -86,4 +86,8 @@ Route::prefix('admin')->middleware('auth', 'isAdmin')->group(function () {
     Route::get('edit-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'edit']);
     Route::post('update-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'update']);
     Route::delete('delete-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'delete']);
+    //////////////////////////////Contact////////////////////////////////////////////////////
+    Route::get('contact', [\App\Http\Controllers\Admin\ContactController::class, 'index']);
+    Route::get('fetch-contact', [App\Http\Controllers\Admin\ContactController::class, 'fetch']);
+    Route::post('update-contact/{id}', [App\Http\Controllers\Admin\ContactController::class, 'update']);
 });
