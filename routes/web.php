@@ -24,12 +24,17 @@ Route::get('/home', function () {
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('logout', [App\Http\Controllers\Admin\UserController::class, 'logout']);
+});
+
+
 Route::group(['prefix' => 'supper', 'middleware' => ['isSupper', 'auth']], function () {
     //////////////////////////Role////////////////////////////////
-    Route::get('/role', [App\Http\Controllers\Admin\RoleController::class, 'index']);
-    Route::get('/fetch-role', [App\Http\Controllers\Admin\RoleController::class, 'fetch']);
-    Route::post('/add-role', [App\Http\Controllers\Admin\RoleController::class, 'store']);
-    Route::delete('/delete-role/{id}', [App\Http\Controllers\Admin\RoleController::class, 'delete']);
+    Route::get('role', [App\Http\Controllers\Admin\RoleController::class, 'index']);
+    Route::get('fetch-role', [App\Http\Controllers\Admin\RoleController::class, 'fetch']);
+    Route::post('add-role', [App\Http\Controllers\Admin\RoleController::class, 'store']);
+    Route::delete('delete-role/{id}', [App\Http\Controllers\Admin\RoleController::class, 'delete']);
     Route::get('edit-role/{id}', [App\Http\Controllers\Admin\RoleController::class, 'edit']);
     Route::post('update-role/{id}', [App\Http\Controllers\Admin\RoleController::class, 'update']);
     //////////////////////////User////////////////////////////////
@@ -39,6 +44,8 @@ Route::group(['prefix' => 'supper', 'middleware' => ['isSupper', 'auth']], funct
     Route::get('edit-user/{id}', [App\Http\Controllers\Admin\UserController::class, 'edit']);
     Route::post('update-user/{id}', [App\Http\Controllers\Admin\UserController::class, 'update']);
     Route::delete('delete-user/{id}', [App\Http\Controllers\Admin\UserController::class, 'delete']);
+    Route::get('profile/{id}', [App\Http\Controllers\Admin\UserController::class, 'profile']);
+    Route::post('update-profile/{id}', [App\Http\Controllers\Admin\UserController::class, 'update_profile']);
     //////////////////////////Personal////////////////////////////////
     Route::get('personal', [App\Http\Controllers\Admin\PersonalController::class, 'index']);
     Route::get('fetch-personal', [App\Http\Controllers\Admin\PersonalController::class, 'fetch']);
@@ -47,7 +54,7 @@ Route::group(['prefix' => 'supper', 'middleware' => ['isSupper', 'auth']], funct
     Route::get('edit-personal/{id}', [App\Http\Controllers\Admin\PersonalController::class, 'edit']);
     Route::post('update-personal/{id}', [App\Http\Controllers\Admin\PersonalController::class, 'update']);
     //////////////////////////////Skill////////////////////////////////////////////////////
-   Route::get('skill', [App\Http\Controllers\Admin\SkillController::class, 'index']);
+    Route::get('skill', [App\Http\Controllers\Admin\SkillController::class, 'index']);
     Route::get('fetch-skill', [App\Http\Controllers\Admin\SkillController::class, 'fetch']);
     Route::post('add-skill', [App\Http\Controllers\Admin\SkillController::class, 'store']);
     Route::get('edit-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'edit']);
@@ -115,6 +122,8 @@ Route::group(['prefix' => 'admin', 'middleware' =>  ['isAdmin', 'auth']], functi
     Route::post('store-user', [App\Http\Controllers\Admin\UserController::class, 'store']);
     Route::get('edit-user/{id}', [App\Http\Controllers\Admin\UserController::class, 'edit']);
     Route::post('update-user/{id}', [App\Http\Controllers\Admin\UserController::class, 'update']);
+    Route::get('profile/{id}', [App\Http\Controllers\Admin\UserController::class, 'profile']);
+    Route::post('update-profile/{id}', [App\Http\Controllers\Admin\UserController::class, 'update_profile']);
     //////////////////////////Personal////////////////////////////////
     Route::get('personal', [App\Http\Controllers\Admin\PersonalController::class, 'index']);
     Route::get('fetch-personal', [App\Http\Controllers\Admin\PersonalController::class, 'fetch']);
@@ -123,7 +132,7 @@ Route::group(['prefix' => 'admin', 'middleware' =>  ['isAdmin', 'auth']], functi
     Route::get('edit-personal/{id}', [App\Http\Controllers\Admin\PersonalController::class, 'edit']);
     Route::post('update-personal/{id}', [App\Http\Controllers\Admin\PersonalController::class, 'update']);
     //////////////////////////////Skill////////////////////////////////////////////////////
-   Route::get('skill', [App\Http\Controllers\Admin\SkillController::class, 'index']);
+    Route::get('skill', [App\Http\Controllers\Admin\SkillController::class, 'index']);
     Route::get('fetch-skill', [App\Http\Controllers\Admin\SkillController::class, 'fetch']);
     Route::post('add-skill', [App\Http\Controllers\Admin\SkillController::class, 'store']);
     Route::get('edit-skill/{id}', [App\Http\Controllers\Admin\SkillController::class, 'edit']);
@@ -186,6 +195,9 @@ Route::group(['prefix' => 'admin', 'middleware' =>  ['isAdmin', 'auth']], functi
 
 
 Route::group(['prefix' => 'user', 'middleware' =>  ['isUser', 'auth']], function () {
+    //////////////////////////Profile/////////////////////////////////
+    Route::get('profile/{id}', [App\Http\Controllers\Admin\UserController::class, 'profile']);
+    Route::post('update-profile/{id}', [App\Http\Controllers\Admin\UserController::class, 'update_profile']);
     //////////////////////////Personal////////////////////////////////
     Route::get('personal', [App\Http\Controllers\Admin\PersonalController::class, 'index']);
     Route::get('fetch-personal', [App\Http\Controllers\Admin\PersonalController::class, 'fetch']);

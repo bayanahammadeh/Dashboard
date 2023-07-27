@@ -2,6 +2,7 @@
 
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Hash;
 use App\Http\Requests\UseRequest;
@@ -9,30 +10,37 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
     protected $role;
+    protected $id;
+    protected $perm;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $perm = Auth::user()->role_as;
+            $this->id  = Auth::user()->id;
             if ($perm == 1)
                 $this->role = "supper";
             if ($perm == 2)
                 $this->role = "admin";
             if ($perm == 3)
                 $this->role = "user";
+            $this->perm = $perm;
             return $next($request);
         });
     }
 
     public function index()
     {
-        $role=$this->role;
-        return view('admin.user.index',compact('role'));
+        $role = $this->role;
+        $id = $this->id;
+        $perm = $this->perm;
+        return view('admin.user.index', compact('role', 'id','perm'));
     }
 
     public function  fetch()
@@ -69,8 +77,30 @@ class UserController extends Controller
             'user' => $user
         ]);
     }
+    public function profile($id)
+    {
+        $user = User::with('role')->find($id);
+        return response()->json([
+            'user' => $user
+        ]);
+    }
 
     public function update(UseRequest $request, $id)
+    {
+        $validated = $request->validated();
+
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->role_as = $request->role_as;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->update();
+
+        return response()->json([
+            'message' => 'your data were updated successfully',
+        ]);
+    }
+    public function update_profile(UseRequest $request, $id)
     {
         $validated = $request->validated();
 
@@ -99,5 +129,11 @@ class UserController extends Controller
                 'message' => 'your data Not Found',
             ]);
         }
+    }
+    public function logout()
+    {
+        Session::flush();
+        Auth::logout();
+        return redirect('/');
     }
 }

@@ -134,7 +134,6 @@
 
             $.ajax({
                 type: 'GET',
-                //url: "{{ url('/admin/fetch-project') }}",
                 url: `/` +url + `/fetch-project`,
                 dataType: 'json',
                 success: function(response) {
@@ -201,7 +200,6 @@
                 data.append('personal', personal_id);
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/admin/add-project') }}",
                     url: `/` +url + `/add-project`,
                     data: data,
                     dataType: 'json',
@@ -224,7 +222,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    //url: "{{ url('/admin/edit-project') }}" + '/' + id,
                     url: `/` +url + `/edit-project` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.project.id);
@@ -246,7 +243,6 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/admin/update-project') }}" + '/' + id,
                     url: `/` +url + `/update-project` + '/' + id,
                     data: data,
                     dataType: 'json',
@@ -268,7 +264,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-project') }}" + '/' + id,
                     url: `/` +url + `/delete-project` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

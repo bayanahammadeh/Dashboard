@@ -67,7 +67,11 @@
                     <input type="password" id="cpas" name="cpas" class="cpas form-control"
                         placeholder="confirm the password" required>
                     <label for="role">Role<span style="color:red">*</span></label>
-                    <select id="addroleselect" name="addroleselect" class="addroleselect form-control"></select>
+                    @if ($role == "supper")
+                        <select id="addroleselect" name="addroleselect" class="addroleselect form-control"></select>
+                    @else
+                        <select id="addroleselect" name="addroleselect" class="addroleselect form-control" disabled></select>
+                    @endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -136,7 +140,6 @@
 
             $.ajax({
                 type: 'GET',
-                //url: "{{ url('/admin/fetch-user') }}",
                 url: `/` + url + `/fetch-user`,
                 dataType: 'json',
                 success: function(response) {
@@ -151,30 +154,30 @@
 
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .name +
                             '</td>\
-                                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .email +
                             '</td>\
-                                                                         <td style="text-align:center;vertical-align: middle;"">' +
+                                                                             <td style="text-align:center;vertical-align: middle;"">' +
                             check +
                             '</td>\
-                                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                                <td style="text-align:center;vertical-align: middle;display:' +
+                                                                                    <td style="text-align:center;vertical-align: middle;display:' +
                             x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                            </tr>'
+                                                                                                                                                                                </tr>'
                         );
                     });
                     $.each(response.roles, function(key, item) {
@@ -213,7 +216,6 @@
                     }
                     $.ajax({
                         type: 'POST',
-                        //url: "{{ url('/admin/store-user') }}",
                         url: `/` + url + `/store-user`,
                         data: data,
                         dataType: 'json',
@@ -221,6 +223,7 @@
                             $('#success_msg').show();
                             $('#success_msg').text(response.message);
                             $('#AddModal').modal('hide');
+                            fetch(url);
                         }
                     });
                 } else {
@@ -238,7 +241,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    //url: "{{ url('/admin/edit-social') }}" + '/' + id,
                     url: `/` + url + `/edit-user` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.user.id);
@@ -251,7 +253,7 @@
 
             $('.update').click(function(e) {
                 e.preventDefault();
-                if ($('#pass').val() == $('#cpass').val()) {
+                if ($('#pas').val() == $('#cpas').val()) {
                     var data = {
                         'name': $('.name').val(),
                         'role_as': $("#addroleselect option:selected").attr("id"),
@@ -261,7 +263,6 @@
                     var id = $('#edit_id').val();
                     $.ajax({
                         type: 'POST',
-                        //url: "{{ url('/admin/update-social') }}" + '/' + id,
                         url: `/` + url + `/update-user` + '/' + id,
                         data: data,
                         dataType: 'json',
@@ -275,7 +276,7 @@
                 } else {
                     $('#success_msg').show();
                     $('#success_msg').text('Password Not Matching');
-                    $('#AddModal').modal('hide');
+                    $('#EditModal').modal('hide');
                 }
             });
 
@@ -286,7 +287,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-social') }}" + '/' + id,
                     url: `/` + url + `/delete-user` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

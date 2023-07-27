@@ -118,7 +118,6 @@
 
             $.ajax({
                 type: 'GET',
-                //url: "{{ url('/user/fetch-experience') }}",
                 url: `/` + url + `/fetch-experience`,
                 dataType: 'json',
                 success: function(response) {
@@ -181,7 +180,6 @@
                 $.ajax({
                     type: 'POST',
                     url: `/` + url + `/add-experience`,
-                    //url: "{{ url('/user/add-experience') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -202,7 +200,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    //url: "{{ url('/user/edit-experience') }}" + '/' + id,
                     url: `/` + url + `/edit-experience` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.experience.id);
@@ -225,7 +222,6 @@
                 $.ajax({
                     type: 'POST',
                     url: `/` + url + `/update-experience` + '/' + id,
-                    //url: "{{ url('/user/update-experience') }}" + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -244,7 +240,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-experience') }}" + '/' + id,
                     url: `/` + url + `/delete-experience` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

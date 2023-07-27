@@ -118,7 +118,6 @@
 
             $.ajax({
                 type: 'GET',
-                //url: "{{ url('/user/fetch-lang') }}",
                 url: `/` + url + `/fetch-lang`,
                 dataType: 'json',
                 success: function(response) {
@@ -180,7 +179,6 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/user/add-lang') }}",
                     url: `/` + url + `/add-lang`,
                     data: data,
                     dataType: 'json',
@@ -202,7 +200,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    // url: "{{ url('/admin/edit-lang') }}" + '/' + id,
                     url: `/` + url + `/edit-lang` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.lang.id);
@@ -223,7 +220,6 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/user/update-lang') }}" + '/' + id,
                     url: `/` + url + `/update-lang` + '/' + id,
                     data: data,
                     dataType: 'json',
@@ -243,7 +239,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-lang') }}" + '/' + id,
                     url: `/` + url + `/delete-lang` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

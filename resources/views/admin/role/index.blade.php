@@ -150,7 +150,6 @@
                 $.ajax({
                     type: 'POST',
                     url: `/` + url + `/add-role`,
-                    //url: "{{ url('/admin/add-role') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -170,7 +169,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    //url: "{{ url('/admin/edit-role') }}" + '/' + id,
                     url: `/` + url + `/edit-role` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.role.id);
@@ -188,7 +186,6 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/admin/update-role') }}" + '/' + id,
                     url: `/` + url + `/update-role` + '/' + id,
                     data: data,
                     dataType: 'json',
@@ -208,7 +205,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //                    url: "{{ url('/admin/delete-role') }}" + '/' + id,
                     url: `/` + url + `/delete-role` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

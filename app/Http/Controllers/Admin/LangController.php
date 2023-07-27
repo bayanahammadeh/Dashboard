@@ -12,26 +12,32 @@ use Illuminate\Support\Facades\Auth;
 class LangController extends Controller
 {
     protected $role;
+    protected $id;
+    protected $perm;
 
     public function __construct()
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
             $perm = Auth::user()->role_as;
+            $this->id  = Auth::user()->id;
             if ($perm == 1)
                 $this->role = "supper";
             if ($perm == 2)
                 $this->role = "admin";
             if ($perm == 3)
                 $this->role = "user";
+            $this->perm = $perm;
             return $next($request);
         });
     }
 
     public function index()
     {
-        $role=$this->role;
-        return view('admin.lang.index',compact('role'));
+        $role = $this->role;
+        $id = $this->id;
+        $perm = $this->perm;
+        return view('admin.lang.index', compact('role', 'id', 'perm'));
     }
 
     public function fetch()
@@ -95,5 +101,4 @@ class LangController extends Controller
             ]);
         }
     }
-
 }

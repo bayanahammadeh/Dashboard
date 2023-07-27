@@ -22,6 +22,10 @@
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/js/jquery.3.2.1.min.js')}}"></script>
+    <script src="{{ asset('assets/js/scripts.js')}}"></script>
 </head>
 
 <body>
@@ -38,10 +42,6 @@
             @include('layouts.inc.admin-footer')
         </div>
     </div>
-
-    <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{ asset('assets/js/jquery.3.2.1.min.js')}}"></script>
-    <script src="{{ asset('assets/js/scripts.js')}}"></script>
 
     @yield('scripts')
 </body>

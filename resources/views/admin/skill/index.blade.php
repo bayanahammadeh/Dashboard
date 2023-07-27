@@ -126,7 +126,6 @@
 
             $.ajax({
                 type: 'GET',
-                //url: "{{ url('/admin/fetch-skill') }}",
                 url: `/` + url + `/fetch-skill`,
                 dataType: 'json',
                 success: function(response) {
@@ -195,7 +194,6 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    //   url: "{{ url('/admin/add-skill') }}",
                     url: `/` + url + `/add-skill`,
                     data: data,
                     dataType: 'json',
@@ -216,7 +214,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    //url: "{{ url('/admin/edit-skill') }}" + '/' + id,
                     url: `/` + url + `/edit-skill` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.skill.id);
@@ -240,7 +237,6 @@
 
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/admin/update-skill') }}" + '/' + id,
                     url: `/` + url + `/update-skill` + '/' + id,
                     data: data,
                     dataType: 'json',
@@ -260,7 +256,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-skill') }}" + '/' + id,
                     url: `/` + url + `/delete-skill` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

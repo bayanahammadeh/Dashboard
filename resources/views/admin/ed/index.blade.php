@@ -127,7 +127,6 @@
             $.ajax({
                 type: 'GET',
                 url: `/` + url + `/fetch-ed`,
-                //url: "{{ url('/user/fetch-ed') }}",
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
@@ -193,7 +192,6 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/user/add-ed') }}",
                     url: `/` + url + `/add-ed`,
                     data: data,
                     dataType: 'json',
@@ -214,7 +212,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    //url: "{{ url('/user/edit-ed') }}" + '/' + id,
                     url: `/` + url + `/edit-ed` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.ed.id);
@@ -236,7 +233,6 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/user/update-ed') }}" + '/' + id,
                     url: `/` + url + `/update-ed` + '/' + id,
                     data: data,
                     dataType: 'json',
@@ -256,7 +252,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-ed') }}" + '/' + id,
                     url: `/` + url + `/delete-ed` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

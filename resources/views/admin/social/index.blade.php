@@ -127,7 +127,6 @@
 
             $.ajax({
                 type: 'GET',
-                //url: "{{ url('/admin/fetch-social') }}",
                 url: `/` + url + `/fetch-social`,
                 dataType: 'json',
                 success: function(response) {
@@ -194,7 +193,6 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/admin/add-social') }}",
                     url: `/` + url + `/add-social`,
                     data: data,
                     dataType: 'json',
@@ -215,7 +213,6 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    //url: "{{ url('/admin/edit-social') }}" + '/' + id,
                     url: `/` + url + `/edit-social` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.social.id);
@@ -238,7 +235,6 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/admin/update-social') }}" + '/' + id,
                     url: `/` + url + `/update-social` + '/' + id,
                     data: data,
                     dataType: 'json',
@@ -258,7 +254,6 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-social') }}" + '/' + id,
                     url: `/` + url + `/delete-social` + '/' + id,
                     dataType: 'json',
                     success: function(response) {

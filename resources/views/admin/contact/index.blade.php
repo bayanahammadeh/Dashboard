@@ -113,7 +113,6 @@
 
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/admin/update-contact') }}" + '/' + id,
                     url: `/` +url + `/update-contact` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
