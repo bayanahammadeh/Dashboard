@@ -73,8 +73,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
-                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
+                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social" data-bs-toggle="modal"
+                        data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -114,42 +114,50 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
+            var x;
+
+            if (url == "user") {
+                x = "none";
+            }
+
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-ed') }}",
+                url: `/` + url + `/fetch-ed`,
+                //url: "{{ url('/user/fetch-ed') }}",
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.eds, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .education.education_name +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .edu_name +
                             '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item.detail +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                            <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                            <td style="text-align:center;vertical-align: middle;display:' +
+                            x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                </tr>'
+                                                                                                                                                                        </tr>'
                         );
                     });
                     $.each(response.educations, function(key, item) {
@@ -166,14 +174,15 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function(e) {
+            var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            fetch();
+            fetch(url);
 
             $('.add').click(function(e) {
                 e.preventDefault();
@@ -184,14 +193,15 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-ed') }}",
+                    //url: "{{ url('/user/add-ed') }}",
+                    url: `/` + url + `/add-ed`,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -204,7 +214,8 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-ed') }}" + '/' + id,
+                    //url: "{{ url('/user/edit-ed') }}" + '/' + id,
+                    url: `/` + url + `/edit-ed` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.ed.id);
                         $('.name').val(response.ed.edu_name);
@@ -225,12 +236,13 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-ed') }}" + '/' + id,
+                    //url: "{{ url('/user/update-ed') }}" + '/' + id,
+                    url: `/` + url + `/update-ed` + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#EditModal').modal('hide');
-                        fetch();
+                        fetch(url);
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                     }
@@ -244,10 +256,11 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-ed') }}" + '/' + id,
+                    //url: "{{ url('/admin/delete-ed') }}" + '/' + id,
+                    url: `/` + url + `/delete-ed` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
+                        fetch(url);
                     }
                 })
             });

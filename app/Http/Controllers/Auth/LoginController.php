@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 
 
@@ -29,18 +30,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    //protected $redirectTo = RouteServiceProvider::HOME;
-    public function authenticated()
-    {
-        if (Auth::user()->role_as == '1') {
-            return redirect('admin/personal');
-        }elseif (Auth::user()->role_as == '0') {
-            return redirect('admin/personal');
-        }else{
-            return redirect('/');
-        }
-    }
-
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -50,5 +40,27 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function login(Request $request)
+    {
+        $data = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($data)) {
+            if (Auth::user()->role_as == '1') {
+              return redirect('supper/role');
+            }
+            if (Auth::user()->role_as == '2') {
+                return redirect('admin/user');
+            }
+            if (Auth::user()->role_as == '3') {
+                return redirect('user/personal');
+            }
+        } else {
+            return redirect('/login');
+        }
     }
 }

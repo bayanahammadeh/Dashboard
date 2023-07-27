@@ -7,12 +7,31 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LangRequest;
 use App\Models\Personal;
 use App\Models\Lang;
+use Illuminate\Support\Facades\Auth;
 
 class LangController extends Controller
 {
+    protected $role;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $perm = Auth::user()->role_as;
+            if ($perm == 1)
+                $this->role = "supper";
+            if ($perm == 2)
+                $this->role = "admin";
+            if ($perm == 3)
+                $this->role = "user";
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        return view('admin.lang.index');
+        $role=$this->role;
+        return view('admin.lang.index',compact('role'));
     }
 
     public function fetch()
@@ -21,7 +40,8 @@ class LangController extends Controller
         $langs = Lang::with('personal')->get();
         return response()->json([
             'langs' => $langs,
-            'personals' => $personals
+            'personals' => $personals,
+            'role' => $this->role
         ]);
     }
 

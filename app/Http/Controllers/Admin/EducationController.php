@@ -7,13 +7,31 @@ use Illuminate\Http\Request;
 use App\Http\Requests\EducationRequest;
 use App\Models\Personal;
 use App\Models\Education;
-
+use Illuminate\Support\Facades\Auth;
 
 class EducationController extends Controller
 {
+    protected $role;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $perm = Auth::user()->role_as;
+            if ($perm == 1)
+                $this->role = "supper";
+            if ($perm == 2)
+                $this->role = "admin";
+            if ($perm == 3)
+                $this->role = "user";
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        return view('admin.education.index');
+        $role=$this->role;
+        return view('admin.education.index',compact('role'));
     }
 
     public function fetch()
@@ -22,7 +40,8 @@ class EducationController extends Controller
         $educations = Education::with('personal')->get();
         return response()->json([
             'educations' => $educations,
-            'personals' => $personals
+            'personals' => $personals,
+            'role' => $this->role
         ]);
     }
 

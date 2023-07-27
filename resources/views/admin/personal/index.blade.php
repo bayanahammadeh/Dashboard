@@ -2,6 +2,7 @@
 
 @section('title', ' Dashboard | BAYAN CV')
 
+
 <!-- Add Modal -->
 <div class="modal fade" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -112,6 +113,7 @@
                 <h4>Personal<a href="#" id="AddModal" class="btn btn-primary btn-sm float-end"
                         data-bs-toggle="modal" data-bs-target="#AddModal">Add</a></h4>
             </div>
+            <br />
             <div class="card-body">
                 @if (session('status'))
                     <div class="alert alert-success" id="msg
@@ -159,54 +161,83 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
+            var x;
+
+
+            if (url === "user") {
+                x = "none";
+            }
+
             $.ajax({
                 type: "GET",
-                url: "{{ url('/admin/fetch-personal') }}",
+                url: `/` + url + `/fetch-personal`,
                 data: "data",
                 dataType: "json",
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.data, function(key, item) {
                         $('tbody').append('<tr>\
-                                <td style="text-align:center;vertical-align: middle;"">' + item.fname + " " + item.lname + '</td>\
-                                <td style="text-align:center;vertical-align: middle;"">' + item.title + '</td>\
-                                <td style="text-align:center;vertical-align: middle;"">' + item.description + '</td>\
-                                <td style="text-align:center;vertical-align: middle;"">' + item.email + '</td>\
-                                <td style="text-align:center;vertical-align: middle;"">' + item.mobile +
+                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            item
+                            .fname + " " +
+                            item
+                            .lname + '</td>\
+                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            item
+                            .title + '</td>\
+                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            item
+                            .description + '</td>\
+                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            item
+                            .email + '</td>\
+                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            item
+                            .mobile +
                             '</td>\
-                                <td style="text-align:center;vertical-align: middle;""><a href="{{ asset(url('assets/pdf/')) }}/' +
+                                                             <td style="text-align:center;vertical-align: middle;""><a href="{{ asset(url('assets/pdf/')) }}/' +
                             item
                             .pdf +
                             '" target="_blank">cv.pdf</a></td>\
-                                <td style="text-align:center;vertical-align: middle;"">' + item.address + '</td>\
-                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' + item
-                            .id + '" class="edit btn btn-success">Edit</button></td>\
-                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' + item
+                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            item
+                            .address +
+                            '</td>\
+                                                             <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                            item
+                            .id +
+                            '" class="edit btn btn-success">Edit</button></td>\
+                                                             <td style="text-align:center;vertical-align: middle;display:' +
+                            x +
+                            '"><button type="button" value="' +
+                            item
                             .id + '" class="del btn btn-danger">Delete</button></td>\
-                                                                                </tr>');
+                                                                                                             </tr>');
                     });
                 }
             });
         }
 
         $(document).ready(function() {
-
+            var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            fetch();
+
+            fetch(url);
+
 
             $('#addForm').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('/admin/store-personal') }}',
+                    url:  `/` +url + `/store-personal`,
                     data: new FormData(this),
                     dataType: 'json',
                     contentType: false,
@@ -215,7 +246,7 @@
                         $('#msg').show();
                         $('#msg').text(response.message);
                         $('#AddModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -227,7 +258,7 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('/admin/edit-personal') }}" + '/' + id,
+                    url:  `/` +url + `/edit-personal` + '/' + id,
                     success: function(response) {
                         $('#id').val(response.personal.id);
                         $('.fname').val(response.personal.fname);
@@ -247,7 +278,7 @@
                 var id = $('#id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-personal') }}" + '/' + id,
+                    url:  `/` +url + `/update-personal` + '/' + id,
                     data: new FormData(this),
                     dataType: 'json',
                     contentType: false,
@@ -256,7 +287,7 @@
                         $('#msg').show();
                         $('#msg').text(response.message);
                         $('#EditModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -267,10 +298,10 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-personal') }}" + '/' + id,
+                    url:  `/` +url + `/delete-personal` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
+                        fetch(url);
                     }
                 })
             });

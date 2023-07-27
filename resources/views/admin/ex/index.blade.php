@@ -19,8 +19,8 @@
                     <input type="text" id="headerr" name="headerr" class="headerr form-control"
                         placeholder="enter the header" required>
                     <label for="detaill">Detail<span style="color:red">*</span></label>
-                    <textarea id="descriptionn" name="descriptionn" class="descriptionn form-control"
-                        placeholder="enter the description" required></textarea>
+                    <textarea id="descriptionn" name="descriptionn" class="descriptionn form-control" placeholder="enter the description"
+                        required></textarea>
                     <label for="education">Experience<span style="color:red">*</span></label>
                     <select id="addexperienceselect" name="addexperienceselect"
                         class="addexperienceselect form-control"></select>
@@ -52,12 +52,12 @@
                     <label for="header">Header<span style="color:red">*</span></label>
                     <input type="text" id="header" name="header" class="header form-control"
                         placeholder="enter the header" required>
-                        <label for="detail">Detail<span style="color:red">*</span></label>
-                        <textarea id="description" name="description" class="description form-control"
-                            placeholder="enter the description" required></textarea>
-                        <label for="education">Experience<span style="color:red">*</span></label>
-                        <select id="updatexperienceselect" name="updatexperienceselect"
-                            class="updatexperienceselect form-control"></select>
+                    <label for="detail">Detail<span style="color:red">*</span></label>
+                    <textarea id="description" name="description" class="description form-control" placeholder="enter the description"
+                        required></textarea>
+                    <label for="education">Experience<span style="color:red">*</span></label>
+                    <select id="updatexperienceselect" name="updatexperienceselect"
+                        class="updatexperienceselect form-control"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -73,8 +73,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
-                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
+                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social" data-bs-toggle="modal"
+                        data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -114,42 +114,51 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
+            var x;
+
+            if (url == "user") {
+                x = "none";
+            }
+
+
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-ex') }}",
+                //url: "{{ url('/admin/fetch-ex') }}",
+                url: `/` + url + `/fetch-ex`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.exs, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .experience.period +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .job_header +
                             '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             item.description +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                        <td style="text-align:center;vertical-align: middle;display:' +
+                            x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                </tr>'
+                                                                                                                                                                    </tr>'
                         );
                     });
                     $.each(response.experiences, function(key, item) {
@@ -166,14 +175,15 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function(e) {
+            var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            fetch();
+            fetch(url);
 
             $('.add').click(function(e) {
                 e.preventDefault();
@@ -184,14 +194,15 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-ex') }}",
+                    //url: "{{ url('/admin/add-ex') }}",
+                    url: `/` + url + `/add-ex`,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -204,7 +215,8 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-ex') }}" + '/' + id,
+                    //url: "{{ url('/admin/edit-ex') }}" + '/' + id,
+                    url: `/` + url + `/edit-ex` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.ex.id);
                         $('.header').val(response.ex.job_header);
@@ -225,12 +237,13 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-ex') }}" + '/' + id,
+                    //url: "{{ url('/admin/update-ex') }}" + '/' + id,
+                    url: `/` + url + `/update-ex` + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#EditModal').modal('hide');
-                        fetch();
+                        fetch(url);
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                     }
@@ -244,10 +257,11 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-ex') }}" + '/' + id,
+                    //url: "{{ url('/admin/delete-ex') }}" + '/' + id,
+                    url: `/` + url + `/delete-ex` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
+                        fetch(url);
                     }
                 })
             });

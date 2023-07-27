@@ -7,12 +7,31 @@ use App\Http\Requests\SkillRequest;
 use App\Models\Personal;
 use Illuminate\Http\Request;
 use App\Models\Skill;
+use Illuminate\Support\Facades\Auth;
 
 class SkillController extends Controller
 {
+    protected $role;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $perm = Auth::user()->role_as;
+            if ($perm == 1)
+                $this->role = "supper";
+            if ($perm == 2)
+                $this->role = "admin";
+            if ($perm == 3)
+                $this->role = "user";
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        return view('admin.skill.index');
+        $role=$this->role;
+        return view('admin.skill.index',compact('role'));
     }
 
     public function fetch()
@@ -21,7 +40,8 @@ class SkillController extends Controller
         $skills = Skill::with('personal')->get();
         return response()->json([
             'skills' => $skills,
-            'personals' => $personals
+            'personals' => $personals,
+            'role' => $this->role
         ]);
     }
 

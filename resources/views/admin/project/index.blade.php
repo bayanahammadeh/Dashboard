@@ -123,13 +123,19 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
+            var x;
+            if (url == "user") {
+                x="none";
+            }
+
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-project') }}",
+                //url: "{{ url('/admin/fetch-project') }}",
+                url: `/` +url + `/fetch-project`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
@@ -157,7 +163,7 @@
                                                                 <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                <td style="text-align:center;vertical-align: middle;display:'+x+'"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
@@ -178,14 +184,15 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function(e) {
+            var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            fetch();
+            fetch(url);
 
             $('#addForm').on('submit', function(e) {
                 e.preventDefault();
@@ -194,7 +201,8 @@
                 data.append('personal', personal_id);
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-project') }}",
+                    //url: "{{ url('/admin/add-project') }}",
+                    url: `/` +url + `/add-project`,
                     data: data,
                     dataType: 'json',
                     contentType: false,
@@ -203,7 +211,7 @@
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -216,7 +224,8 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-project') }}" + '/' + id,
+                    //url: "{{ url('/admin/edit-project') }}" + '/' + id,
+                    url: `/` +url + `/edit-project` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.project.id);
                         $('.project_name').val(response.project.project_name);
@@ -237,14 +246,15 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-project') }}" + '/' + id,
+                    //url: "{{ url('/admin/update-project') }}" + '/' + id,
+                    url: `/` +url + `/update-project` + '/' + id,
                     data: data,
                     dataType: 'json',
                     contentType: false,
                     processData: false,
                     success: function(response) {
                         $('#EditModal').modal('hide');
-                        fetch();
+                        fetch(url);
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                     }
@@ -258,10 +268,11 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-project') }}" + '/' + id,
+                    //url: "{{ url('/admin/delete-project') }}" + '/' + id,
+                    url: `/` +url + `/delete-project` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
+                        fetch(url);
                     }
                 })
             });

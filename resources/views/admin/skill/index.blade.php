@@ -56,8 +56,7 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="personalselect2">Personal<span style="color:red">*</span></label>
-                        <select name="personalselect2" id="personalselect2"
-                            class="personalselect2 form-control">
+                        <select name="personalselect2" id="personalselect2" class="personalselect2 form-control">
                         </select>
                     </div>
                 </div>
@@ -116,42 +115,49 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
+            var x;
+            if (url == "user") {
+                x = "none";
+            }
+
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-skill') }}",
+                //url: "{{ url('/admin/fetch-skill') }}",
+                url: `/` + url + `/fetch-skill`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.skills, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                <td style="text-align:center">' +
+                                                                                                                                                    <td style="text-align:center">' +
                             item
                             .id +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .skill_name +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .percentage +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                    <td style="text-align:center;vertical-align: middle;display:' + x +
+                            '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                            </tr>'
+                                                                                                                                                </tr>'
                         );
                     });
                     $.each(response.personals, function(key, item) {
@@ -169,7 +175,8 @@
         }
 
 
-        $(document).ready(function() {
+        $(document).ready(function(e) {
+            var url = "{{ $role }}";
 
             $.ajaxSetup({
                 headers: {
@@ -177,7 +184,7 @@
                 }
             });
 
-            fetch();
+            fetch(url);
 
             $('.add').click(function(e) {
                 e.preventDefault();
@@ -188,14 +195,15 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-skill') }}",
+                    //   url: "{{ url('/admin/add-skill') }}",
+                    url: `/` + url + `/add-skill`,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -208,12 +216,14 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-skill') }}" + '/' + id,
+                    //url: "{{ url('/admin/edit-skill') }}" + '/' + id,
+                    url: `/` + url + `/edit-skill` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.skill.id);
                         $('.name').val(response.skill.skill_name);
                         $('.percentage').val(response.skill.percentage);
-                        $("#personalselect2").val(response.skill.personal.fname+" "+response.skill.personal.lname);
+                        $("#personalselect2").val(response.skill.personal.fname + " " + response
+                            .skill.personal.lname);
                     }
                 })
             });
@@ -230,12 +240,13 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-skill') }}" + '/' + id,
+                    //url: "{{ url('/admin/update-skill') }}" + '/' + id,
+                    url: `/` + url + `/update-skill` + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#EditModal').modal('hide');
-                        fetch();
+                        fetch(url);
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                     }
@@ -249,10 +260,11 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-skill') }}" + '/' + id,
+                    //url: "{{ url('/admin/delete-skill') }}" + '/' + id,
+                    url: `/` + url + `/delete-skill` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
+                        fetch(url);
                     }
                 })
             });

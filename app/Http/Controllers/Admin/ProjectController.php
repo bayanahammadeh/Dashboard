@@ -6,12 +6,32 @@ use App\Http\Requests\ProjectRequest;
 use App\Models\Personal;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProjectController extends ImageController
 {
+    protected $role;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $perm = Auth::user()->role_as;
+            if ($perm == 1)
+                $this->role = "supper";
+            if ($perm == 2)
+                $this->role = "admin";
+            if ($perm == 3)
+                $this->role = "user";
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        return view('admin.project.index');
+        $role=$this->role;
+        return view('admin.project.index',compact('role'));
     }
 
     public function fetch()
@@ -20,7 +40,8 @@ class ProjectController extends ImageController
         $projects = Project::with('personal')->get();
         return response()->json([
             'projects' => $projects,
-            'personals' => $personals
+            'personals' => $personals,
+            'role' => $this->role
         ]);
     }
 

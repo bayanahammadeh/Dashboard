@@ -49,10 +49,12 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
+            var x;
+
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-contact') }}",
+                url: `/` +url + `/fetch-contact`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
@@ -67,42 +69,43 @@
                             '" role="switch" id="flexSwitchCheckChecked"></div>';
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .recuriname +
                             '</td>\
-                                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .subject +
                             '</td>\
-                                                                 <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item.email +
                             '</td>\
-                                                                 <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item.msg +
                             '</td>\
-                                                                 <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             check +
                             '</td>\
-                                                                                                                                                                    </tr>'
+                                                                                                                                                                        </tr>'
                         );
                     });
                 }
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function(e) {
+            var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            fetch();
+            fetch(url);
 
             $(document).on('click', '.edit', function(e) {
                 var id = $(this).val();
@@ -110,15 +113,15 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-contact') }}" + '/' + id,
+                    //url: "{{ url('/admin/update-contact') }}" + '/' + id,
+                    url: `/` +url + `/update-contact` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
-                        $('#flexSwitchCheckChecked').attr('checked','checked');
+                        fetch(url);
+                        $('#flexSwitchCheckChecked').attr('checked', 'checked');
                         $('#flexSwitchCheckChecked').prop('disabled', true);
                     }
                 })
-
             });
         });
     </script>

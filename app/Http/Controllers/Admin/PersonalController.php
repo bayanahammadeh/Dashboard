@@ -1,25 +1,49 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonalRequest;
 use App\Models\Personal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PersonalController extends FileController
 {
-    public function  fetch()
+    protected $role;
+
+    public function __construct()
     {
-        $data = Personal::all();
-        return response()->json([
-            'data' => $data
-        ]);
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $perm = Auth::user()->role_as;
+            if ($perm == 1)
+                $this->role = "supper";
+            if ($perm == 2)
+                $this->role = "admin";
+            if ($perm == 3)
+                $this->role = "user";
+            return $next($request);
+        });
     }
 
     public function index()
     {
-        return view('admin.personal.index');
+        $role=$this->role;
+        return view('admin.personal.index',compact('role'));
     }
+
+
+    public function  fetch()
+    {
+        $data = Personal::all();
+
+        return response()->json([
+            'data' => $data,
+            'role' => $this->role
+        ]);
+    }
+
 
     public function edit($id)
     {

@@ -15,12 +15,9 @@
             <form id="addForm">
                 @csrf
                 <div class="modal-body">
-                    <label for="lang">Lang<span style="color:red">*</span></label>
-                    <input type="text" id="langg" name="langg" class="langg form-control"
-                        placeholder="enter the lang" required>
-                    <label for="personal">Personal<span style="color:red">*</span></label>
-                    <select id="addpersonalselect" name="addpersonalselect"
-                        class="addpersonalselect form-control"></select>
+                    <label for="namee">Role<span style="color:red">*</span></label>
+                    <input type="text" id="namee" name="namee" class="namee form-control"
+                        placeholder="enter the name" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -46,12 +43,9 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
-                    <label for="lang">lang<span style="color:red">*</span></label>
-                    <input type="text" class="lang form-control" id="lang" name="lang"
-                        placeholder="enter the lang" required>
-                    <label for="personal">Personal<span style="color:red">*</span></label>
-                    <select id="updatepersonalselect" name="updatepersonalselect"
-                        class="updatepersonalselect  form-control"></select>
+                    <label for="name">Role<span style="color:red">*</span></label>
+                    <input type="text" id="name" name="name" class="name form-control"
+                        placeholder="enter the name" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -67,7 +61,7 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Lang<a href="#" class="btn btn-primary btn-sm float-end" id="add-lang" data-bs-toggle="modal"
+                <h4>Role<a href="#" class="btn btn-primary btn-sm float-end" id="add-social" data-bs-toggle="modal"
                         data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
@@ -84,10 +78,7 @@
                                 ID
                             </th>
                             <th style="text-align: center">
-                                Lang
-                            </th>
-                            <th style="text-align: center">
-                                personal
+                                Role
                             </th>
                             <th style="text-align: center" colspan="2">
                                 operation
@@ -109,60 +100,39 @@
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
-            var x;
-
-            if (url == "user") {
-                x = "none";
-            }
-
-
             $.ajax({
                 type: 'GET',
-                //url: "{{ url('/user/fetch-lang') }}",
-                url: `/` + url + `/fetch-lang`,
+                url: `/` + url + `/fetch-role`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
-                    $.each(response.langs, function(key, item) {
+                    $.each(response.roles, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .lang_name +
+                            .role_name +
                             '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
-                            item.personal.fname + " " + item.personal.lname +
-                            '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                    <td style="text-align:center;vertical-align: middle;display:' +
-                            x + '"><button type="button" value="' +
+                                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                </tr>'
+                                                                                                                                                                    </tr>'
                         );
-                    });
-                    $.each(response.personals, function(key, item) {
-                        $('#addpersonalselect')
-                            .append($("<option name='personal' id='personal'></option>")
-                                .attr("id", item.id)
-                                .text(item.fname + " " + item.lname));
-                        $('#updatepersonalselect')
-                            .append($("<option name='personal' id='personal'></option>")
-                                .attr("id", item.id)
-                                .text(item.fname + " " + item.lname));
                     });
                 }
             });
         }
 
         $(document).ready(function(e) {
+
             var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
@@ -175,13 +145,12 @@
             $('.add').click(function(e) {
                 e.preventDefault();
                 var data = {
-                    'lang': $('.langg').val(),
-                    'personal': $("#addpersonalselect option:selected").attr("id"),
+                    'name': $('.namee').val(),
                 }
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/user/add-lang') }}",
-                    url: `/` + url + `/add-lang`,
+                    url: `/` + url + `/add-role`,
+                    //url: "{{ url('/admin/add-role') }}",
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -195,20 +164,17 @@
 
             $(document).on('click', '.edit', function(e) {
                 e.preventDefault();
-                var url = "{{ $role }}";
                 $('#updateForm')[0].reset();
                 var id = $(this).val();
 
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    // url: "{{ url('/admin/edit-lang') }}" + '/' + id,
-                    url: `/` + url + `/edit-lang` + '/' + id,
+                    //url: "{{ url('/admin/edit-role') }}" + '/' + id,
+                    url: `/` + url + `/edit-role` + '/' + id,
                     success: function(response) {
-                        $('#edit_id').val(response.lang.id);
-                        $('.lang').val(response.lang.lang_name);
-                        $("#updatepersonalselect").val(response.lang.personal.fname + " " +
-                            response.lang.personal.lname);
+                        $('#edit_id').val(response.role.id);
+                        $('.name').val(response.role.role_name);
                     }
                 })
             });
@@ -217,14 +183,13 @@
                 e.preventDefault();
 
                 var data = {
-                    'lang': $('.lang').val(),
-                    'personal': $("#updatepersonalselect option:selected").attr("id"),
+                    'name': $('.name').val(),
                 }
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    //url: "{{ url('/user/update-lang') }}" + '/' + id,
-                    url: `/` + url + `/update-lang` + '/' + id,
+                    //url: "{{ url('/admin/update-role') }}" + '/' + id,
+                    url: `/` + url + `/update-role` + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
@@ -243,8 +208,8 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    //url: "{{ url('/admin/delete-lang') }}" + '/' + id,
-                    url: `/` + url + `/delete-lang` + '/' + id,
+                    //                    url: "{{ url('/admin/delete-role') }}" + '/' + id,
+                    url: `/` + url + `/delete-role` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch(url);

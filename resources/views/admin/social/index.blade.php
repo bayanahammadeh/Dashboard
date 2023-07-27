@@ -56,8 +56,8 @@
                     <input type="text" class="url form-control" id="url" name="url"
                         placeholder="enter the url" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
-                    <select  id="updatepersonalselect" name="updatepersonalselect"
-                    class="updatepersonalselect  form-control"></select>
+                    <select id="updatepersonalselect" name="updatepersonalselect"
+                        class="updatepersonalselect  form-control"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -73,8 +73,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Social<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
-                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
+                <h4>Social<a href="#" class="btn btn-primary btn-sm float-end" id="add-social" data-bs-toggle="modal"
+                        data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -114,42 +114,51 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
+            var x;
+
+            if (url == "user") {
+                x = "none";
+            }
+
+
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-social') }}",
+                //url: "{{ url('/admin/fetch-social') }}",
+                url: `/` + url + `/fetch-social`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.socials, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .name +
                             '</td>\
-                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .url +
                             '</td>\
-                                                         <td style="text-align:center;vertical-align: middle;"">' +
+                                                             <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                    <td style="text-align:center;vertical-align: middle;display:' +
+                            x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                            </tr>'
+                                                                                                                                                                </tr>'
                         );
                     });
                     $.each(response.personals, function(key, item) {
@@ -166,14 +175,15 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function(e) {
+            var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            fetch();
+            fetch(url);
 
             $('.add').click(function(e) {
                 e.preventDefault();
@@ -184,14 +194,15 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-social') }}",
+                    //url: "{{ url('/admin/add-social') }}",
+                    url: `/` + url + `/add-social`,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -204,7 +215,8 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-social') }}" + '/' + id,
+                    //url: "{{ url('/admin/edit-social') }}" + '/' + id,
+                    url: `/` + url + `/edit-social` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.social.id);
                         $('.name').val(response.social.name);
@@ -226,12 +238,13 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-social') }}" + '/' + id,
+                    //url: "{{ url('/admin/update-social') }}" + '/' + id,
+                    url: `/` + url + `/update-social` + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#EditModal').modal('hide');
-                        fetch();
+                        fetch(url);
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                     }
@@ -245,10 +258,11 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-social') }}" + '/' + id,
+                    //url: "{{ url('/admin/delete-social') }}" + '/' + id,
+                    url: `/` + url + `/delete-social` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
+                        fetch(url);
                     }
                 })
             });

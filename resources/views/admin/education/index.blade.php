@@ -16,7 +16,8 @@
                 @csrf
                 <div class="modal-body">
                     <label for="education_name">Education Name<span style="color:red">*</span></label>
-                    <input type="text" class="education_name form-control" id="education_name" name="education_name" placeholder="enter the education" required>
+                    <input type="text" class="education_name form-control" id="education_name" name="education_name"
+                        placeholder="enter the education" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select name="personalselect" id="personalselect" class="personalselect form-control"></select>
                 </div>
@@ -46,12 +47,12 @@
                     <input type="hidden" id="edit_id">
                     <div class="form-group mb-3">
                         <label for="education_namee">Education Name<span style="color:red">*</span></label>
-                        <input type="text" id="education_namee" name="education_namee" class="education_namee form-control" />
+                        <input type="text" id="education_namee" name="education_namee"
+                            class="education_namee form-control" />
                     </div>
                     <div class="form-group mb-3">
                         <label for="personalselect2">Personal<span style="color:red">*</span></label>
-                        <select name="personalselect2" id="personalselect2"
-                            class="personalselect2 form-control">
+                        <select name="personalselect2" id="personalselect2" class="personalselect2 form-control">
                         </select>
                     </div>
                 </div>
@@ -69,8 +70,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Education<a href="#" class="btn btn-primary btn-sm float-end" id="add-education" data-bs-toggle="modal"
-                        data-bs-target="#AddModal">Add</a>
+                <h4>Education<a href="#" class="btn btn-primary btn-sm float-end" id="add-education"
+                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -107,38 +108,47 @@
 
 @section('scripts')
     <script>
-        function fetch() {
+        function fetch(url) {
             $('#AddModal form')[0].reset();
             $('#EditModal form')[0].reset();
 
+            var x;
+
+            if (url == "user") {
+                x = "none";
+            }
+
+
             $.ajax({
                 type: 'GET',
-                url: "{{ url('/admin/fetch-education') }}",
+                // url: "{{ url('/admin/fetch-education') }}",
+                url: `/` + url + `/fetch-education`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.educations, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                <td style="text-align:center">' +
+                                                                                                                                                    <td style="text-align:center">' +
                             item
                             .id +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .education_name +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                    <td style="text-align:center;vertical-align: middle;display:' + x +
+                            '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                            </tr>'
+                                                                                                                                                </tr>'
                         );
                     });
                     $.each(response.personals, function(key, item) {
@@ -156,15 +166,15 @@
         }
 
 
-        $(document).ready(function() {
-
+        $(document).ready(function(e) {
+            var url = "{{ $role }}";
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            fetch();
+            fetch(url);
 
             $('.add').click(function(e) {
                 e.preventDefault();
@@ -174,14 +184,15 @@
                 }
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/add-education') }}",
+                    //url: "{{ url('/admin/add-education') }}",
+                    url: `/` + url + `/add-education`,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
-                        fetch();
+                        fetch(url);
                     }
                 });
             });
@@ -194,11 +205,13 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: "{{ url('/admin/edit-education') }}" + '/' + id,
+                    //url: "{{ url('/admin/edit-education') }}" + '/' + id,
+                    url: `/` + url + `/edit-education` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.education.id);
                         $('#education_namee').val(response.education.education_name);
-                        $("#personalselect2").val(response.education.personal.fname+" "+response.education.personal.lname);
+                        $("#personalselect2").val(response.education.personal.fname + " " +
+                            response.education.personal.lname);
                     }
                 })
             });
@@ -214,12 +227,13 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: "{{ url('/admin/update-education') }}" + '/' + id,
+                    //url: "{{ url('/admin/update-education') }}" + '/' + id,
+                    url: `/` + url + `/update-education` + '/' + id,
                     data: data,
                     dataType: 'json',
                     success: function(response) {
                         $('#EditModal').modal('hide');
-                        fetch();
+                        fetch(url);
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
                     }
@@ -233,10 +247,11 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: "{{ url('/admin/delete-education') }}" + '/' + id,
+                    //url: "{{ url('/admin/delete-education') }}" + '/' + id,
+                    url: `/` + url + `/delete-education` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
-                        fetch();
+                        fetch(url);
                     }
                 })
             });

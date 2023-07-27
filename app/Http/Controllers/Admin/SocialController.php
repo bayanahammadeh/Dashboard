@@ -7,12 +7,31 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SocialRequest;
 use App\Models\Personal;
 use App\Models\Social;
+use Illuminate\Support\Facades\Auth;
 
 class SocialController extends Controller
 {
+    protected $role;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $perm = Auth::user()->role_as;
+            if ($perm == 1)
+                $this->role = "supper";
+            if ($perm == 2)
+                $this->role = "admin";
+            if ($perm == 3)
+                $this->role = "user";
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        return view('admin.social.index');
+        $role=$this->role;
+        return view('admin.social.index',compact('role'));
     }
 
     public function fetch()
@@ -21,7 +40,8 @@ class SocialController extends Controller
         $socials = Social::with('personal')->get();
         return response()->json([
             'socials' => $socials,
-            'personals' => $personals
+            'personals' => $personals,
+            'role' => $this->role
         ]);
     }
 

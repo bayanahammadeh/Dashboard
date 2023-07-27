@@ -7,12 +7,31 @@ use App\Models\Ex;
 use App\Models\Experience;
 use App\Http\Requests\ExRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExController extends Controller
 {
+    protected $role;
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $perm = Auth::user()->role_as;
+            if ($perm == 1)
+                $this->role = "supper";
+            if ($perm == 2)
+                $this->role = "admin";
+            if ($perm == 3)
+                $this->role = "user";
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        return view('admin.ex.index');
+        $role=$this->role;
+        return view('admin.ex.index',compact('role'));
     }
 
     public function fetch()
@@ -21,7 +40,8 @@ class ExController extends Controller
         $exs = Ex::with('experience')->get();
         return response()->json([
             'exs' => $exs,
-            'experiences' => $experiences
+            'experiences' => $experiences,
+            'role' => $this->role
         ]);
     }
 
