@@ -252,4 +252,8 @@ Route::group(['prefix' => 'user', 'middleware' =>  ['isUser', 'auth']], function
     Route::post('add-ex', [App\Http\Controllers\Admin\ExController::class, 'store']);
     Route::get('edit-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'edit']);
     Route::post('update-ex/{id}', [App\Http\Controllers\Admin\ExController::class, 'update']);
+    //////////////////////////////Contact////////////////////////////////////////////////////
+    Route::get('contact', [\App\Http\Controllers\Admin\ContactController::class, 'index']);
+    Route::get('fetch-contact', [App\Http\Controllers\Admin\ContactController::class, 'fetch']);
+    Route::post('update-contact/{id}', [App\Http\Controllers\Admin\ContactController::class, 'update']);
 });

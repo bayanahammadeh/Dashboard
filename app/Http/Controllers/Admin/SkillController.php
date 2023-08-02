@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SkillRequest;
 use App\Models\Personal;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,9 @@ class SkillController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.skill.index', compact('role', 'perm', 'id'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.skill.index', compact('role', 'perm', 'id','count'));
     }
 
     public function fetch()

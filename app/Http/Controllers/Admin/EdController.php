@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\EdRequest;
 use App\Models\Education;
+use App\Models\Contact;
 use App\Models\Ed;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +38,9 @@ class EdController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.ed.index',compact('role','id','perm'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.ed.index',compact('role','id','perm','count'));
     }
 
     public function fetch()

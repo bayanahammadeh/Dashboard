@@ -13,6 +13,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -24,6 +25,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
     <script src="{{ asset('assets/js/jquery.3.2.1.min.js')}}"></script>
     <script src="{{ asset('assets/js/scripts.js')}}"></script>
 </head>

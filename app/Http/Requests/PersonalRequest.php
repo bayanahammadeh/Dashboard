@@ -24,7 +24,7 @@ class PersonalRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'fname' => 'required',
             'lname' => 'required',
             'title' => 'required',

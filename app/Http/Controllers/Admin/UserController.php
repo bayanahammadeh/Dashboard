@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Role;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -40,7 +41,9 @@ class UserController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.user.index', compact('role', 'id','perm'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.user.index', compact('role', 'id','perm','count'));
     }
 
     public function  fetch()

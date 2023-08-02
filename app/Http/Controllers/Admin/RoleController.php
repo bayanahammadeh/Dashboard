@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoleRequest;
+use App\Models\Contact;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,9 @@ class RoleController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.role.index', compact('role', 'perm', 'id'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.role.index', compact('role', 'perm', 'id','count'));
     }
 
     public function fetch()

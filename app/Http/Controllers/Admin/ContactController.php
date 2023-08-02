@@ -35,7 +35,9 @@ class ContactController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.contact.index', compact('role', 'id','perm'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.contact.index', compact('role', 'id','perm','count'));
     }
 
     public function fetch()

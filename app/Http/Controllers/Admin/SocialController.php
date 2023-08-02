@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SocialRequest;
 use App\Models\Personal;
 use App\Models\Social;
+use App\Models\Contact;
 use Illuminate\Support\Facades\Auth;
 
 class SocialController extends Controller
@@ -37,7 +38,9 @@ class SocialController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.social.index', compact('role', 'perm', 'id'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.social.index', compact('role', 'perm', 'id','count'));
     }
 
     public function fetch()

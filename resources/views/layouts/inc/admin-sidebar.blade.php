@@ -48,11 +48,11 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Social
                 </a>
-                @if (( $role  == "admin")||( $role  == "supper"))
                 <a class="nav-link" href="{{ url($role.'/contact') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     Contact
                 </a>
+                @if (( $role  == "admin")||( $role  == "supper"))
                 <a class="nav-link" href="{{ url($role.'/user') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                     User

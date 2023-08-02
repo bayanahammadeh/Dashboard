@@ -119,6 +119,7 @@
                         fetch(url);
                         $('#flexSwitchCheckChecked').attr('checked', 'checked');
                         $('#flexSwitchCheckChecked').prop('disabled', true);
+                        window.location.reload();
                     }
                 })
             });

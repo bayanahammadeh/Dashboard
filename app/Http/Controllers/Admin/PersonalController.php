@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonalRequest;
 use App\Models\Personal;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,7 +37,9 @@ class PersonalController extends FileController
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.personal.index', compact('role', 'id', 'perm'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.personal.index', compact('role', 'id', 'perm','count'));
     }
 
 

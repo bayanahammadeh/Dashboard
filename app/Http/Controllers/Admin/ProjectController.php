@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Personal;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +39,9 @@ class ProjectController extends ImageController
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.project.index', compact('role', 'perm', 'id'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.project.index', compact('role', 'perm', 'id','count'));
     }
 
     public function fetch()

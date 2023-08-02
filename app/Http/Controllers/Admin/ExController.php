@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Ex;
 use App\Models\Experience;
+use App\Models\Contact;
 use App\Http\Requests\ExRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +38,9 @@ class ExController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.ex.index', compact('role', 'id', 'perm'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.ex.index', compact('role', 'id', 'perm','count'));
     }
 
     public function fetch()

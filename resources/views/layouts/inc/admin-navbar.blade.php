@@ -40,12 +40,9 @@
 
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html"> Dashboard | BAYAN CV</a>
-    <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-            class="fas fa-bars"></i></button>
-    <!-- Navbar-->
-    <ul class="navbar-nav d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+    <a class="navbar-brand ps-3" href="#"> Dashboard | BAYAN CV</a>
+
+    <ul class="navbar-nav d-none d-md-inline-block form-inline ms-auto me-0    my-2 my-md-0">
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -59,14 +56,26 @@
             </ul>
         </li>
     </ul>
+    <a href="{{ url($role.'/contact') }}" class="notification me-md-3">
+        <span class="fa fa-bell">Inbox</span>
+        <span class="badge" id="msgcount"></span>
+    </a>
 </nav>
 
 
 <script>
+    function notiy(value) {
+        $("#msgcount").text(value);
+      }
+
     $(document).ready(function(e) {
         var idpro = "{{ $id }}";
         var urlpro = "{{ $role }}";
         var permpro = "{{ $perm }}";
+        var notification = "{{ $count }}";
+
+        notiy(notification);
+
 
         $.ajaxSetup({
             headers: {

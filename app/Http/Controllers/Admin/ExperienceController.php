@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ExperienceRequest;
 use App\Models\Personal;
+use App\Models\Contact;
 use App\Models\Experience;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +38,9 @@ class ExperienceController extends Controller
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        return view('admin.experience.index', compact('role', 'id', 'perm'));
+        $notification=Contact::where('status', '=', 0)->get();
+        $count = $notification->count();
+        return view('admin.experience.index', compact('role', 'id', 'perm','count'));
     }
 
     public function fetch()
