@@ -18,7 +18,7 @@
                     <label for="skill_name">Skill Name<span style="color:red">*</span></label>
                     <input type="text" class="name form-control" placeholder="enter the skill name" required>
                     <label for="percentage">Percentage<span style="color:red">*</span></label>
-                    <input type="text" class="percentage form-control" placeholder="enter the percentage" required>
+                    <input type="number" class="percentage form-control" placeholder="enter the percentage" min="0" max="100" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select name="personalselect" id="personalselect" class="personalselect form-control"></select>
                 </div>
@@ -48,11 +48,11 @@
                     <input type="hidden" id="edit_id">
                     <div class="form-group mb-3">
                         <label for="name">Skill Name<span style="color:red">*</span></label>
-                        <input type="text"id="name" class="name form-control" />
+                        <input type="text"id="name" class="name form-control" required />
                     </div>
                     <div class="form-group mb-3">
                         <label for="percentage">Percentage<span style="color:red">*</span></label>
-                        <input type="text" id="percentage" class="percentage form-control" />
+                        <input type="number" id="percentage"  min="0" max="100" required  class="percentage form-control" />
                     </div>
                     <div class="form-group mb-3">
                         <label for="personalselect2">Personal<span style="color:red">*</span></label>
