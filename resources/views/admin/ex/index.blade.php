@@ -75,8 +75,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social" data-bs-toggle="modal"
-                        data-bs-target="#AddModal">Add</a>
+                <h4>Detail<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
+                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -132,32 +132,38 @@
                     $.each(response.exs, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .experience.period +
                             '</td>\
-                                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .job_header +
                             '</td>\
-                                                                 <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item.description +
                             '</td>\
-                                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                            <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                        <td style="text-align:center;vertical-align: middle;display:' +
+                                                                            <td style="text-align:center;vertical-align: middle;display:' +
                             x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                    </tr>'
+                                                                                                                                                                        </tr>'
                         );
                     });
+                    $('#addexperienceselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
+                    $('#updatexperienceselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
                     $.each(response.experiences, function(key, item) {
                         $('#addexperienceselect')
                             .append($("<option name='experience' id='experience'></option>")

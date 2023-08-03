@@ -64,8 +64,8 @@
                     <input type="file" class="file form-control" name="file" id="file"
                         placeholder="enter the image" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
-                    <select  id="updatepersonalselect" name="updatepersonalselect"
-                    class="updatepersonalselect  form-control"></select>
+                    <select id="updatepersonalselect" name="updatepersonalselect"
+                        class="updatepersonalselect  form-control"></select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -129,46 +129,53 @@
             resetFields();
             var x;
             if (url == "user") {
-                x="none";
+                x = "none";
             }
 
             $.ajax({
                 type: 'GET',
-                url: `/` +url + `/fetch-project`,
+                url: `/` + url + `/fetch-project`,
                 dataType: 'json',
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.projects, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .project_name +
                             '</td>\
-                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .project_url +
                             '</td>\
-                                                                <td style="text-align:center;vertical-align: middle;""><img  width=100px height=100  src="{{ asset(url('assets/img/')) }}/' +
-                                                                    item.project_image +
-                                                                    '"></td>\
-                                                                <td style="text-align:center;vertical-align: middle;"">' +
+                                                                    <td style="text-align:center;vertical-align: middle;""><img  width=100px height=100  src="{{ asset(url('assets/img/')) }}/' +
+                            item.project_image +
+                            '"></td>\
+                                                                    <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                                <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                <td style="text-align:center;vertical-align: middle;display:'+x+'"><button type="button" value="' +
+                                                                    <td style="text-align:center;vertical-align: middle;display:' +
+                            x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                            </tr>'
+                                                                                                                                                                </tr>'
                         );
                     });
+                    $('#addpersonalselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
+                    $('#updatepersonalselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
                     $.each(response.personals, function(key, item) {
                         $('#addpersonalselect')
                             .append($("<option name='personal' id='personal'></option>")
@@ -216,7 +223,7 @@
                 data.append('personal', personal_id);
                 $.ajax({
                     type: 'POST',
-                    url: `/` +url + `/add-project`,
+                    url: `/` + url + `/add-project`,
                     data: data,
                     dataType: 'json',
                     contentType: false,
@@ -247,7 +254,7 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: 'GET',
-                    url: `/` +url + `/edit-project` + '/' + id,
+                    url: `/` + url + `/edit-project` + '/' + id,
                     success: function(response) {
                         $('#edit_id').val(response.project.id);
                         $('.project_name').val(response.project.project_name);
@@ -268,7 +275,7 @@
                 var id = $('#edit_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: `/` +url + `/update-project` + '/' + id,
+                    url: `/` + url + `/update-project` + '/' + id,
                     data: data,
                     dataType: 'json',
                     contentType: false,
@@ -298,7 +305,7 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url: `/` +url + `/delete-project` + '/' + id,
+                    url: `/` + url + `/delete-project` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch(url);

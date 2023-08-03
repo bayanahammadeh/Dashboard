@@ -69,10 +69,11 @@
                     <input type="password" id="cpas" name="cpas" class="cpas form-control"
                         placeholder="confirm the password" required>
                     <label for="role">Role<span style="color:red">*</span></label>
-                    @if ($role == "supper")
+                    @if ($role == 'supper')
                         <select id="addroleselect" name="addroleselect" class="addroleselect form-control"></select>
                     @else
-                        <select id="addroleselect" name="addroleselect" class="addroleselect form-control" disabled></select>
+                        <select id="addroleselect" name="addroleselect" class="addroleselect form-control"
+                            disabled></select>
                     @endif
                 </div>
                 <div class="modal-footer">
@@ -153,32 +154,38 @@
 
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .name +
                             '</td>\
-                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .email +
                             '</td>\
-                                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             check +
                             '</td>\
-                                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                                    <td style="text-align:center;vertical-align: middle;display:' +
+                                                                                        <td style="text-align:center;vertical-align: middle;display:' +
                             x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                                </tr>'
+                                                                                                                                                                                    </tr>'
                         );
                     });
+                    $('#addroleselectt')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
+                    $('#addroleselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
                     $.each(response.roles, function(key, item) {
                         $('#addroleselectt')
                             .append($("<option name='role' id='role'></option>")

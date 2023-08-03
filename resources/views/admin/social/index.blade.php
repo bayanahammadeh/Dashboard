@@ -75,8 +75,8 @@
         <div class="card mt-4">
             <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
-                <h4>Social<a href="#" class="btn btn-primary btn-sm float-end" id="add-social" data-bs-toggle="modal"
-                        data-bs-target="#AddModal">Add</a>
+                <h4>Social<a href="#" class="btn btn-primary btn-sm float-end" id="add-social"
+                        data-bs-toggle="modal" data-bs-target="#AddModal">Add</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -116,6 +116,8 @@
 
 @section('scripts')
     <script>
+
+
         function fetch(url) {
             resetFields();
             var x;
@@ -132,32 +134,38 @@
                     $.each(response.socials, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .name +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .url +
                             '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                                            <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                    <td style="text-align:center;vertical-align: middle;display:' +
+                                                                                            <td style="text-align:center;vertical-align: middle;display:' +
                             x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                </tr>'
+                                                                                                                                                                                        </tr>'
                         );
                     });
+                    $('#addpersonalselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
+                    $('#updatepersonalselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
                     $.each(response.personals, function(key, item) {
                         $('#addpersonalselect')
                             .append($("<option name='personal' id='personal'></option>")
@@ -181,7 +189,6 @@
             $("#errormsg2").hide();
         }
 
-
         $(document).ready(function(e) {
             var url = "{{ $role }}";
             $.ajaxSetup({
@@ -202,6 +209,7 @@
 
             $('.add').click(function(e) {
                 e.preventDefault();
+
                 var data = {
                     'name': $('.namee').val(),
                     'url': $('.urll').val(),

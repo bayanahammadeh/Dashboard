@@ -123,28 +123,34 @@
                     $.each(response.experiences, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .id +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .period +
                             '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                    <td style="text-align:center;vertical-align: middle;display:' +
+                                                                        <td style="text-align:center;vertical-align: middle;display:' +
                             x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                </tr>'
+                                                                                                                                                                    </tr>'
                         );
                     });
+                    $('#addpersonalselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
+                    $('#updatepersonalselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
                     $.each(response.personals, function(key, item) {
                         $('#addpersonalselect')
                             .append($("<option name='personal' id='personal'></option>")

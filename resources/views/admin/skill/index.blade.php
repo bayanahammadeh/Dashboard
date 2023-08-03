@@ -19,7 +19,8 @@
                     <label for="skill_name">Skill Name<span style="color:red">*</span></label>
                     <input type="text" class="name form-control" placeholder="enter the skill name" required>
                     <label for="percentage">Percentage<span style="color:red">*</span></label>
-                    <input type="number" class="percentage form-control" placeholder="enter the percentage" min="0" max="100" required>
+                    <input type="number" class="percentage form-control" placeholder="enter the percentage"
+                        min="0" max="100" required>
                     <label for="personal">Personal<span style="color:red">*</span></label>
                     <select name="personalselect" id="personalselect" class="personalselect form-control"></select>
                 </div>
@@ -54,7 +55,8 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="percentage">Percentage<span style="color:red">*</span></label>
-                        <input type="number" id="percentage"  min="0" max="100" required  class="percentage form-control" />
+                        <input type="number" id="percentage" min="0" max="100" required
+                            class="percentage form-control" />
                     </div>
                     <div class="form-group mb-3">
                         <label for="personalselect2">Personal<span style="color:red">*</span></label>
@@ -117,7 +119,7 @@
 
 @section('scripts')
     <script>
-        function fetch(url,links) {
+        function fetch(url, links) {
             resetFields();
             var x;
             if (url == "user") {
@@ -133,33 +135,38 @@
                     $.each(response.skills, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                    <td style="text-align:center">' +
+                                                                                                                                                        <td style="text-align:center">' +
                             item
                             .id +
                             '</td>\
-                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .skill_name +
                             '</td>\
-                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .percentage +
                             '</td>\
-                                                    <td style="text-align:center;vertical-align: middle;"">' +
+                                                        <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                    <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                    <td style="text-align:center;vertical-align: middle;display:' + x +
+                                                        <td style="text-align:center;vertical-align: middle;display:' + x +
                             '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                </tr>'
+                                                                                                                                                    </tr>'
                         );
                     });
-
+                    $('#personalselect')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
+                    $('#personalselect2')
+                        .empty()
+                        .append('<option selected="selected" value="...">...</option>');
                     $.each(response.personals, function(key, item) {
                         $('#personalselect')
                             .append($("<option></option>")
