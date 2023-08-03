@@ -16,6 +16,7 @@
             <form id="addForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
+                    <div class="alert alert-danger" id="errormsg"></div>
                     <label for="fname">First Name<span style="color:red">*</span></label>
                     <input type="text" class="fname form-control" name="fname" placeholder="enter the first name"
                         required>
@@ -67,6 +68,7 @@
             <form id="updateForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
+                    <div class="alert alert-danger" id="errormsg2"></div>
                     <input type="hidden" name="id" id="id">
                     <label for="fname">First Name<span style="color:red">*</span></label>
                     <input type="text" class="fname form-control" name="fname"
@@ -162,16 +164,11 @@
 @section('scripts')
     <script>
         function fetch(url) {
-            $('#AddModal form')[0].reset();
-            $('#EditModal form')[0].reset();
-
+            resetFields();
             var x;
-
-
             if (url === "user") {
                 x = "none";
             }
-
             $.ajax({
                 type: "GET",
                 url: `/` + url + `/fetch-personal`,
@@ -180,46 +177,62 @@
                 success: function(response) {
                     $('tbody').html("");
                     $.each(response.data, function(key, item) {
-                        $('tbody').append('<tr>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                        $('tbody').append(
+                            '<tr>\
+                                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .fname + " " +
                             item
-                            .lname + '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            .lname +
+                            '</td>\
+                                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .title + '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            .title +
+                            '</td>\
+                                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .description + '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            .description +
+                            '</td>\
+                                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item
-                            .email + '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                            .email +
+                            '</td>\
+                                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .mobile +
                             '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;""><a href="{{ asset(url('assets/pdf/')) }}/' +
+                                                                                     <td style="text-align:center;vertical-align: middle;""><a href="{{ asset(url('assets/pdf/')) }}/' +
                             item
                             .pdf +
                             '" target="_blank">cv.pdf</a></td>\
-                                                             <td style="text-align:center;vertical-align: middle;"">' +
+                                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .address +
                             '</td>\
-                                                             <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                                     <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item
                             .id +
                             '" class="edit btn btn-success">Edit</button></td>\
-                                                             <td style="text-align:center;vertical-align: middle;display:' +
+                                                                                     <td style="text-align:center;vertical-align: middle;display:' +
                             x +
                             '"><button type="button" value="' +
                             item
-                            .id + '" class="del btn btn-danger">Delete</button></td>\
-                                                                                                             </tr>');
+                            .id +
+                            '" class="del btn btn-danger">Delete</button></td>\
+                                                                                                                                     </tr>'
+                        );
                     });
                 }
             });
+        }
+
+        function resetFields() {
+            $('#AddModal form')[0].reset();
+            $('#EditModal form')[0].reset();
+            $("#errormsg").html("");
+            $("#errormsg").hide();
+            $("#errormsg2").html("");
+            $("#errormsg2").hide();
         }
 
         $(document).ready(function() {
@@ -232,12 +245,18 @@
 
             fetch(url);
 
+            $("#AddModal").on("hidden.bs.modal", function() {
+                resetFields();
+            });
+            $("#EditModal").on("hidden.bs.modal", function() {
+                resetFields();
+            });
 
             $('#addForm').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
                     type: 'POST',
-                    url:  `/` +url + `/store-personal`,
+                    url: `/` + url + `/store-personal`,
                     data: new FormData(this),
                     dataType: 'json',
                     contentType: false,
@@ -247,6 +266,15 @@
                         $('#msg').text(response.message);
                         $('#AddModal').modal('hide');
                         fetch(url);
+                    },
+                    error: function(response) {
+                        $("#errormsg").show();
+                        var errors = response.responseJSON;
+                        var errorsHtml = '';
+                        $.each(errors.errors, function(key, value) {
+                            errorsHtml += value[0] + '<br>';
+                        });
+                        $('#errormsg').html(errorsHtml);
                     }
                 });
             });
@@ -258,7 +286,7 @@
                 $('#EditModal').modal('show');
                 $.ajax({
                     type: "GET",
-                    url:  `/` +url + `/edit-personal` + '/' + id,
+                    url: `/` + url + `/edit-personal` + '/' + id,
                     success: function(response) {
                         $('#id').val(response.personal.id);
                         $('.fname').val(response.personal.fname);
@@ -278,7 +306,7 @@
                 var id = $('#id').val();
                 $.ajax({
                     type: 'POST',
-                    url:  `/` +url + `/update-personal` + '/' + id,
+                    url: `/` + url + `/update-personal` + '/' + id,
                     data: new FormData(this),
                     dataType: 'json',
                     contentType: false,
@@ -288,6 +316,15 @@
                         $('#msg').text(response.message);
                         $('#EditModal').modal('hide');
                         fetch(url);
+                    },
+                    error: function(response) {
+                        $("#errormsg2").show();
+                        var errors = response.responseJSON;
+                        var errorsHtml = '';
+                        $.each(errors.errors, function(key, value) {
+                            errorsHtml += value[0] + '<br>';
+                        });
+                        $('#errormsg2').html(errorsHtml);
                     }
                 });
             });
@@ -298,7 +335,7 @@
 
                 $.ajax({
                     type: 'DELETE',
-                    url:  `/` +url + `/delete-personal` + '/' + id,
+                    url: `/` + url + `/delete-personal` + '/' + id,
                     dataType: 'json',
                     success: function(response) {
                         fetch(url);

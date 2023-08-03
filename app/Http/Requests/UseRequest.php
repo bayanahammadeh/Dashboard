@@ -24,9 +24,21 @@ class UseRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'name' => 'required',
             'password' => 'required|min:8',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'Email Must Be unique',
+            'email.email' => 'Check the E-mail Format',
+            'email.required' => 'Email  Field is required',
+            'name.required' => 'Name  Field is required',
+            'password.required' => 'Password  Field is required',
+            'password.min' => 'Password Field must be the length should be 8',
         ];
     }
 }

@@ -28,4 +28,11 @@ class LangRequest extends FormRequest
             'personal' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'lang.required' => 'Lang  Field is required',
+        ];
+    }
 }

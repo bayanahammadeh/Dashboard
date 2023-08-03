@@ -29,4 +29,13 @@ class SkillRequest extends FormRequest
             'personal' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name  Field is required',
+            'percentage.required' => 'Percentage  Field is required',
+            'personal.required' => 'Personal  Field is required',
+        ];
+    }
 }

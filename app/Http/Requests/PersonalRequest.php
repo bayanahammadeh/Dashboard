@@ -4,6 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use Illuminate\Http\Exceptions\HttpResponseException;
+
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
+
 class PersonalRequest extends FormRequest
 {
     /**
@@ -24,7 +29,7 @@ class PersonalRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:personals,email',
             'fname' => 'required',
             'lname' => 'required',
             'title' => 'required',
@@ -33,6 +38,24 @@ class PersonalRequest extends FormRequest
             'phone' => 'required',
             'address' => 'required',
             'file' =>  'required|mimes:pdf'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'Email Must Be unique',
+            'email.email' => 'Check the E-mail Format',
+            'email.required' => 'Email  Field is required',
+            'fname.required' => 'First Name  Field is required',
+            'lname.required' => 'Last Name  Field is required',
+            'title.required' => 'Title  Field is required',
+            'description.required' => 'Description  Field is required',
+            'mobile.required' => 'Mobile  Field is required',
+            'phone.required' => 'Phone  Field is required',
+            'address.required' => 'Address  Field is required',
+            'file.required' => 'CV  Field is required',
+            'file.mimes' => 'CV Must Be pdf format',
         ];
     }
 }

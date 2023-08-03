@@ -29,4 +29,12 @@ class ExRequest extends FormRequest
             'experience' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'header.required' => 'Header Field is required',
+            'description.required' => 'Detail Field is required',
+        ];
+    }
 }

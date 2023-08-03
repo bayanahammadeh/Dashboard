@@ -28,4 +28,11 @@ class EducationRequest extends FormRequest
             'personal' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'education_name.required' => 'Name  Field is required',
+        ];
+    }
 }

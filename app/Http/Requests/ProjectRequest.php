@@ -30,4 +30,14 @@ class ProjectRequest extends FormRequest
             'personal' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'project_name.required' => 'Project Name  Field is required',
+            'project_url.required' => 'URL  Field is required',
+            'file.required' => 'Image  Field is required',
+            'file.mimes' => 'Image Must Be one of these format (jpeg,png,jpg)',
+        ];
+    }
 }

@@ -28,4 +28,11 @@ class ExperienceRequest extends FormRequest
             'personal' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'period.required' => 'period  Field is required',
+        ];
+    }
 }

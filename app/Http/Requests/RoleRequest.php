@@ -27,4 +27,11 @@ class RoleRequest extends FormRequest
             'name' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name  Field is required',
+        ];
+    }
 }

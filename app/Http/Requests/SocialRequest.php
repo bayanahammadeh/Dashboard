@@ -29,4 +29,12 @@ class SocialRequest extends FormRequest
             'personal' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name Field is required',
+            'url.required' => 'URL Field is required',
+        ];
+    }
 }

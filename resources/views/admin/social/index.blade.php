@@ -15,6 +15,7 @@
             <form id="addForm">
                 @csrf
                 <div class="modal-body">
+                    <div class="alert alert-danger" id="errormsg"></div>
                     <label for="namee">Name<span style="color:red">*</span></label>
                     <input type="text" id="namee" name="namee" class="namee form-control"
                         placeholder="enter the name" required>
@@ -49,6 +50,7 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" id="edit_id">
+                    <div class="alert alert-danger" id="errormsg2"></div>
                     <label for="name">Name<span style="color:red">*</span></label>
                     <input type="text" id="name" name="name" class="name form-control"
                         placeholder="enter the name" required>
@@ -115,15 +117,11 @@
 @section('scripts')
     <script>
         function fetch(url) {
-            $('#AddModal form')[0].reset();
-            $('#EditModal form')[0].reset();
-
+            resetFields();
             var x;
-
             if (url == "user") {
                 x = "none";
             }
-
 
             $.ajax({
                 type: 'GET',
@@ -174,6 +172,16 @@
             });
         }
 
+        function resetFields() {
+            $('#AddModal form')[0].reset();
+            $('#EditModal form')[0].reset();
+            $("#errormsg").html("");
+            $("#errormsg").hide();
+            $("#errormsg2").html("");
+            $("#errormsg2").hide();
+        }
+
+
         $(document).ready(function(e) {
             var url = "{{ $role }}";
             $.ajaxSetup({
@@ -183,6 +191,14 @@
             });
 
             fetch(url);
+
+            $("#AddModal").on("hidden.bs.modal", function() {
+                resetFields();
+            });
+            $("#EditModal").on("hidden.bs.modal", function() {
+                resetFields();
+            });
+
 
             $('.add').click(function(e) {
                 e.preventDefault();
@@ -201,6 +217,15 @@
                         $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
                         fetch(url);
+                    },
+                    error: function(response) {
+                        $("#errormsg").show();
+                        var errors = response.responseJSON;
+                        var errorsHtml = '';
+                        $.each(errors.errors, function(key, value) {
+                            errorsHtml += value[0] + '<br>';
+                        });
+                        $('#errormsg').html(errorsHtml);
                     }
                 });
             });
@@ -243,6 +268,15 @@
                         fetch(url);
                         $('#success_msg').show();
                         $('#success_msg').text(response.message);
+                    },
+                    error: function(response) {
+                        $("#errormsg2").show();
+                        var errors = response.responseJSON;
+                        var errorsHtml = '';
+                        $.each(errors.errors, function(key, value) {
+                            errorsHtml += value[0] + '<br>';
+                        });
+                        $('#errormsg2').html(errorsHtml);
                     }
                 })
             });

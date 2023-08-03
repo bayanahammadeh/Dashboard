@@ -66,6 +66,8 @@ class PersonalController extends FileController
     {
         $validated = $request->validated();
 
+
+      
         $personal = new Personal();
         $personal->email = $request->email;
         $personal->fname = $request->fname;

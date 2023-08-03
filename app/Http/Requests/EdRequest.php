@@ -29,4 +29,12 @@ class EdRequest extends FormRequest
             'education' => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name Field is required',
+            'detail.required' => 'Detail Field is required',
+        ];
+    }
 }
