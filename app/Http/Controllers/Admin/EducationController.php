@@ -96,11 +96,11 @@ class EducationController extends Controller
         if ($education) {
             $education->delete();
             return response()->json([
-                'message' => 'Education Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'Education Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }

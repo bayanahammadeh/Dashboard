@@ -102,11 +102,11 @@ class SkillController extends Controller
         if ($skill) {
             $skill->delete();
             return response()->json([
-                'message' => 'Skill Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'Skill Not Found',
+                'message' => 'your data does  not exist',
             ]);
         }
     }

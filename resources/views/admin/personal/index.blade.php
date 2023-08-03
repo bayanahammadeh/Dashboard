@@ -111,18 +111,13 @@
 @section('content')
     <div class="container-fluid px-4">
         <div class="card mt-4">
+            <div class="alert alert-success" id="success_msg" style="display:none"></div>
             <div class="card-header">
                 <h4>Personal<a href="#" id="AddModal" class="btn btn-primary btn-sm float-end"
                         data-bs-toggle="modal" data-bs-target="#AddModal">Add</a></h4>
             </div>
             <br />
             <div class="card-body">
-                @if (session('status'))
-                    <div class="alert alert-success" id="msg
-                    ">
-                        {{ session('status') }}
-                    </div>
-                @endif
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -262,18 +257,18 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        $('#msg').show();
-                        $('#msg').text(response.message);
                         $('#AddModal').modal('hide');
                         fetch(url);
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     },
                     error: function(response) {
-                        $("#errormsg").show();
                         var errors = response.responseJSON;
                         var errorsHtml = '';
                         $.each(errors.errors, function(key, value) {
                             errorsHtml += value[0] + '<br>';
                         });
+                        $("#errormsg").show();
                         $('#errormsg').html(errorsHtml);
                     }
                 });
@@ -312,10 +307,10 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        $('#msg').show();
-                        $('#msg').text(response.message);
                         $('#EditModal').modal('hide');
                         fetch(url);
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     },
                     error: function(response) {
                         $("#errormsg2").show();
@@ -339,6 +334,8 @@
                     dataType: 'json',
                     success: function(response) {
                         fetch(url);
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     }
                 })
             });

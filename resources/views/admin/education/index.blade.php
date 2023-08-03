@@ -285,6 +285,8 @@
                     dataType: 'json',
                     success: function(response) {
                         fetch(url);
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     }
                 })
             });

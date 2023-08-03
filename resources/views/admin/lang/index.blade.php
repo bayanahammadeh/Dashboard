@@ -211,12 +211,12 @@
                         fetch(url);
                     },
                     error: function(response) {
-                        $("#errormsg").show();
                         var errors = response.responseJSON;
                         var errorsHtml = '';
                         $.each(errors.errors, function(key, value) {
                             errorsHtml += value[0] + '<br>';
                         });
+                        $("#errormsg").show();
                         $('#errormsg').html(errorsHtml);
                     }
                 });
@@ -283,6 +283,8 @@
                     dataType: 'json',
                     success: function(response) {
                         fetch(url);
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     }
                 })
             });

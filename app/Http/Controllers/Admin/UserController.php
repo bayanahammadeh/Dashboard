@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Hash;
 use App\Http\Requests\UseRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -88,11 +89,11 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UseRequest $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
+        $user = User::find($id);
         $validated = $request->validated();
 
-        $user = User::find($id);
         $user->name = $request->name;
         $user->role_as = $request->role_as;
         $user->email = $request->email;
@@ -125,11 +126,11 @@ class UserController extends Controller
         if ($user) {
             $user->delete();
             return response()->json([
-                'message' => 'your data were Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'your data Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }

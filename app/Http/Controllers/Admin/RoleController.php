@@ -91,11 +91,11 @@ class RoleController extends Controller
         if ($role) {
             $role->delete();
             return response()->json([
-                'message' => 'your data were Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'your data Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }

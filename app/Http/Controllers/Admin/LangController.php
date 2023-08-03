@@ -96,11 +96,11 @@ class LangController extends Controller
         if ($lang) {
             $lang->delete();
             return response()->json([
-                'message' => 'lang Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'lang Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonalRequest;
+use App\Http\Requests\UpdatePesonalRequest;
 use App\Models\Personal;
 use App\Models\Contact;
 use Illuminate\Http\Request;
@@ -37,9 +38,9 @@ class PersonalController extends FileController
         $role = $this->role;
         $id = $this->id;
         $perm = $this->perm;
-        $notification=Contact::where('status', '=', 0)->get();
+        $notification = Contact::where('status', '=', 0)->get();
         $count = $notification->count();
-        return view('admin.personal.index', compact('role', 'id', 'perm','count'));
+        return view('admin.personal.index', compact('role', 'id', 'perm', 'count'));
     }
 
 
@@ -53,21 +54,24 @@ class PersonalController extends FileController
         ]);
     }
 
-
     public function edit($id)
     {
         $personal = Personal::find($id);
-        return response()->json([
-            'personal' => $personal
-        ]);
+        if ($personal) {
+            return response()->json([
+                'personal' => $personal
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'your data were saved successfully',
+            ]);
+        }
     }
 
     public function store(PersonalRequest $request)
     {
         $validated = $request->validated();
 
-
-      
         $personal = new Personal();
         $personal->email = $request->email;
         $personal->fname = $request->fname;
@@ -84,7 +88,7 @@ class PersonalController extends FileController
         }
         $personal->save();
         return response()->json([
-            'message' => 'your data wre saved successfully',
+            'message' => 'your data were saved successfully',
         ]);
     }
 
@@ -95,15 +99,15 @@ class PersonalController extends FileController
             app('App\Http\Controllers\Admin\FileController')->deletedFile($personal->pdf);
             $personal->delete();
             return response()->json([
-                'message' => 'Personal Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'Personal Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }
-    public function update(PersonalRequest $request, $id)
+    public function update(UpdatePesonalRequest $request, $id)
     {
         $personal = Personal::find($id);
 
@@ -126,11 +130,11 @@ class PersonalController extends FileController
             }
             $personal->update();
             return response()->json([
-                'message' => 'your data wre saved successfully',
+                'message' => 'your data were saved successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'Personal Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }

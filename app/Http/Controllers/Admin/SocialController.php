@@ -98,11 +98,11 @@ class SocialController extends Controller
         if ($social) {
             $social->delete();
             return response()->json([
-                'message' => 'Social Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'Social Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }

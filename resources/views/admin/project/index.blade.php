@@ -229,10 +229,10 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        $('#success_msg').show();
-                        $('#success_msg').text(response.message);
                         $('#AddModal').modal('hide');
                         fetch(url);
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     },
                     error: function(response) {
                         $("#errormsg").show();
@@ -309,6 +309,8 @@
                     dataType: 'json',
                     success: function(response) {
                         fetch(url);
+                        $('#success_msg').show();
+                        $('#success_msg').text(response.message);
                     }
                 })
             });

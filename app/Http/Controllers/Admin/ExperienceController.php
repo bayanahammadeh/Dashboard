@@ -96,11 +96,11 @@ class ExperienceController extends Controller
         if ($experience) {
             $experience->delete();
             return response()->json([
-                'message' => 'experience Deleted Successfully',
+                'message' => 'your data were deleted successfully',
             ]);
         } else {
             return response()->json([
-                'message' => 'experience Not Found',
+                'message' => 'your data does not exist',
             ]);
         }
     }
