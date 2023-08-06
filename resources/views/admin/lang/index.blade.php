@@ -83,9 +83,6 @@
                     <thead>
                         <tr>
                             <th style="text-align: center">
-                                ID
-                            </th>
-                            <th style="text-align: center">
                                 Lang
                             </th>
                             <th style="text-align: center">
@@ -124,26 +121,22 @@
                     $.each(response.langs, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                        <td style="text-align:center;vertical-align: middle;"">' +
-                            item
-                            .id +
-                            '</td>\
-                                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .lang_name +
                             '</td>\
-                                                                 <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                                            <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                                        <td style="text-align:center;vertical-align: middle;display:' +
+                                                                            <td style="text-align:center;vertical-align: middle;display:' +
                             x + '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                                    </tr>'
+                                                                                                                                                                        </tr>'
                         );
                     });
                     $('#addpersonalselect')

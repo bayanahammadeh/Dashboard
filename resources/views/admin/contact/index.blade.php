@@ -19,9 +19,6 @@
                     <thead>
                         <tr>
                             <th style="text-align: center">
-                                ID
-                            </th>
-                            <th style="text-align: center">
                                 Contact
                             </th>
                             <th style="text-align: center">
@@ -70,10 +67,6 @@
                         $('tbody').append(
                             '<tr>\
                                                                                                                                                                             <td style="text-align:center;vertical-align: middle;"">' +
-                            item
-                            .id +
-                            '</td>\
-                                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .recuriname +
                             '</td>\

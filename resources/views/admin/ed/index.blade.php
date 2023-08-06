@@ -89,9 +89,6 @@
                     <thead>
                         <tr>
                             <th style="text-align: center">
-                                ID
-                            </th>
-                            <th style="text-align: center">
                                 Education
                             </th>
                             <th style="text-align: center">
@@ -132,10 +129,6 @@
                     $.each(response.eds, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                                <td style="text-align:center;vertical-align: middle;"">' +
-                            item
-                            .id +
-                            '</td>\
                                                                                 <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .education.education_name +

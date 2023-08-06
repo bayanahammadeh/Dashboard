@@ -89,9 +89,6 @@
                     <thead>
                         <tr>
                             <th style="text-align: center">
-                                ID
-                            </th>
-                            <th style="text-align: center">
                                 Name
                             </th>
                             <th style="text-align: center">
@@ -134,10 +131,6 @@
                     $.each(response.socials, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                                                            <td style="text-align:center;vertical-align: middle;"">' +
-                            item
-                            .id +
-                            '</td>\
                                                                                             <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .name +
