@@ -92,9 +92,6 @@
                     <thead>
                         <tr>
                             <th style="text-align: center">
-                                ID
-                            </th>
-                            <th style="text-align: center">
                                 Name
                             </th>
                             <th style="text-align: center">
@@ -135,30 +132,27 @@
                     $.each(response.skills, function(key, item) {
                         $('tbody').append(
                             '<tr>\
-                                                                                                                                                        <td style="text-align:center">' +
-                            item
-                            .id +
-                            '</td>\
-                                                        <td style="text-align:center;vertical-align: middle;"">' +
+    <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .skill_name +
                             '</td>\
-                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item
                             .percentage +
                             '</td>\
-                                                        <td style="text-align:center;vertical-align: middle;"">' +
+                                                            <td style="text-align:center;vertical-align: middle;"">' +
                             item.personal.fname + " " + item.personal.lname +
                             '</td>\
-                                                        <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
+                                                            <td style="text-align:center;vertical-align: middle;""><button type="button" value="' +
                             item.id +
                             '"  class="edit btn btn-primary btn-sm">Edit</button></td>\
-                                                        <td style="text-align:center;vertical-align: middle;display:' + x +
+                                                            <td style="text-align:center;vertical-align: middle;display:' +
+                            x +
                             '"><button type="button" value="' +
                             item
                             .id +
                             '" class="del btn btn-danger btn-sm">Delete</button></td>\
-                                                                                                                                                    </tr>'
+                                                                                                                                                        </tr>'
                         );
                     });
                     $('#personalselect')
