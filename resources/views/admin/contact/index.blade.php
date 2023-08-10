@@ -61,7 +61,7 @@
                             '<div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch"  id="flexSwitchCheckChecked" checked disabled></div>';
                         else
                             check =
-                            '<div class="form-check form-switch"><input class="edit form-check-input" type="checkbox" value="' +
+                            '<div class="form-check form-switch" ><input class="edit form-check-input" type="checkbox" value="' +
                             item.id +
                             '" role="switch" id="flexSwitchCheckChecked"></div>';
                         $('tbody').append(
@@ -70,17 +70,17 @@
                             item
                             .recuriname +
                             '</td>\
-                                                                            <td style="text-align:center;vertical-align: middle;"">' +
+                                                                            <td style="text-align:center;vertical-align: middle;">' +
                             item
                             .subject +
                             '</td>\
-                                                                     <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;">' +
                             item.email +
                             '</td>\
-                                                                     <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;">' +
                             item.msg +
                             '</td>\
-                                                                     <td style="text-align:center;vertical-align: middle;"">' +
+                                                                     <td style="text-align:center;vertical-align: middle;">' +
                             check +
                             '</td>\
                                                                                                                                                                         </tr>'
