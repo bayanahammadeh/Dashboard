@@ -25,11 +25,7 @@ class UpdatePesonalRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => [
-                'required',
-                'unique:personals,email',
-                Rule::unique('personals', 'email')->ignore($this->id)
-            ],
+            'email' => 'unique:personals,email,'.$this->id,
             'fname' => 'required',
             'lname' => 'required',
             'title' => 'required',

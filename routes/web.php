@@ -18,10 +18,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-/*Route::get('/home', function () {
-    return view('client.index');
-});*/
-
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
